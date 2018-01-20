@@ -1,0 +1,10 @@
+FROM plugins/base:multiarch
+
+LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>" \
+  org.label-schema.name="Drone Lambda" \
+  org.label-schema.vendor="Bo-Yi Wu" \
+  org.label-schema.schema-version="1.0"
+
+ADD release/linux/i386/drone-lambda /bin/
+
+ENTRYPOINT ["/bin/drone-lambda"]
