@@ -29,9 +29,30 @@ func main() {
 	app.Action = run
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:   "secret, s",
-			Usage:  "line channel secret",
-			EnvVar: "PLUGIN_CHANNEL_SECRET,LINE_CHANNEL_SECRET",
+			Name:   "region",
+			Usage:  "AWS Region",
+			EnvVar: "PLUGIN_REGION,AWS_REGION",
+			Value:  "us-east-1",
+		},
+		cli.StringFlag{
+			Name:   "access-key",
+			Usage:  "AWS ACCESS KEY",
+			EnvVar: "PLUGIN_ACCESS_KEY,AWS_ACCESS_KEY_ID",
+		},
+		cli.StringFlag{
+			Name:   "secret-key",
+			Usage:  "AWS SECRET KEY",
+			EnvVar: "PLUGIN_SECRET_KEY,AWS_SECRET_ACCESS_KEY",
+		},
+		cli.StringFlag{
+			Name:   "session-token",
+			Usage:  "AWS Session token",
+			EnvVar: "PLUGIN_SESSION_TOKEN,AWS_SESSION_TOKEN",
+		},
+		cli.StringFlag{
+			Name:   "aws-profile",
+			Usage:  "AWS profile",
+			EnvVar: "PLUGIN_PROFILE,AWS_PROFILE",
 		},
 	}
 
@@ -54,7 +75,9 @@ func run(c *cli.Context) error {
 
 	plugin := Plugin{
 		Config: Config{
-			Region: c.String("secret"),
+			Region:    c.String("region"),
+			AccessKey: c.String("access-key"),
+			SecretKey: c.String("secret-key"),
 		},
 	}
 
