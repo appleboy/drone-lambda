@@ -34,23 +34,11 @@ fmt:
 vet:
 	go vet $(PACKAGES)
 
-errcheck:
-	@which errcheck > /dev/null; if [ $$? -ne 0 ]; then \
-		go get -u github.com/kisielk/errcheck; \
-	fi
-	errcheck $(PACKAGES)
-
 lint:
 	@which golint > /dev/null; if [ $$? -ne 0 ]; then \
 		go get -u github.com/golang/lint/golint; \
 	fi
 	for PKG in $(PACKAGES); do golint -set_exit_status $$PKG || exit 1; done;
-
-unconvert:
-	@which unconvert > /dev/null; if [ $$? -ne 0 ]; then \
-		go get -u github.com/mdempsky/unconvert; \
-	fi
-	for PKG in $(PACKAGES); do unconvert -v $$PKG || exit 1; done;
 
 .PHONY: misspell-check
 misspell-check:
@@ -92,9 +80,6 @@ test-vendor:
 test: fmt-check
 	for PKG in $(PACKAGES); do go test -cover -coverprofile $$GOPATH/src/$$PKG/coverage.txt $$PKG || exit 1; done;
 
-html:
-	go tool cover -html=coverage.txt
-
 install: $(SOURCES)
 	go install -v -tags '$(TAGS)' -ldflags '$(EXTLDFLAGS)-s -w $(LDFLAGS)'
 
@@ -135,23 +120,9 @@ build_linux_arm:
 docker_image:
 	docker build -t $(DEPLOY_ACCOUNT)/$(DEPLOY_IMAGE) .
 
-docker: static_build docker_image
-
-docker_deploy:
-ifeq ($(tag),)
-	@echo "Usage: make $@ tag=<tag>"
-	@exit 1
-endif
-	# deploy image
-	docker tag $(DEPLOY_ACCOUNT)/$(DEPLOY_IMAGE):latest $(DEPLOY_ACCOUNT)/$(DEPLOY_IMAGE):$(tag)
-	docker push $(DEPLOY_ACCOUNT)/$(DEPLOY_IMAGE):$(tag)
-
 coverage:
 	sed -i '/main.go/d' coverage.txt
 
 clean:
 	go clean -x -i ./...
 	rm -rf coverage.txt $(EXECUTABLE) $(DIST) vendor
-
-version:
-	@echo $(VERSION)
