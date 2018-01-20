@@ -17,3 +17,108 @@ The pre-compiled binaries can be downloaded from [release page](https://github.c
 * Windows amd64/386
 * Linux amd64/386
 * Darwin amd64/386
+
+With `Go` installed
+
+```
+$ go get -u -v github.com/appleboy/drone-lambda
+``` 
+
+or build the binary with the following command:
+
+```
+$ make build
+```
+
+## Docker
+
+Build the docker image with the following commands:
+
+```
+$ make docker
+```
+
+Please note incorrectly building the image for the correct x64 linux and with
+CGO disabled will result in an error when running the Docker image:
+
+```
+docker: Error response from daemon: Container command
+'/bin/drone-lambda' not found or does not exist..
+```
+
+## Usage
+
+There are three ways to send notification.
+
+* [usage from binary](#usage-from-binary)
+* [usage from docker](#usage-from-docker)
+* [usage from drone ci](#usage-from-drone-ci)
+
+<a name="usage-from-binary"></a>
+### Usage from binary
+
+Update lambda function from zip file.
+
+```sh
+$ drone-lambda --region ap-southeast-1 \
+  --access-key xxxx \
+  --secret-key xxxx \
+  --function-name upload-s3 \
+  --zip-file deployment.zip
+```
+
+Update lambda function from s3 object.
+
+```sh
+$ drone-lambda --region ap-southeast-1 \
+  --access-key xxxx \
+  --secret-key xxxx \
+  --function-name upload-s3 \
+  --s3-bucket some-bucket \
+  --s3-key lambda-dir/lambda-project-${DRONE_BUILD_NUMBER}.zip
+```
+
+<a name="usage-from-docker"></a>
+### Usage from docker
+
+Update lambda function from zip file.
+
+```bash
+docker run --rm \
+  -e AWS_ACCESS_KEY_ID=xxxxxxx \
+  -e AWS_SECRET_ACCESS_KEY=xxxxxxx \
+  -e FUNCTION_NAME=upload-s3 \
+  -e ZIP_FILE=deployment.zip \
+  -v $(pwd):$(pwd) \
+  -w $(pwd) \
+  appleboy/drone-lambda
+```
+
+Update lambda function from s3 object.
+
+```bash
+docker run --rm \
+  -e AWS_ACCESS_KEY_ID=xxxxxxx \
+  -e AWS_SECRET_ACCESS_KEY=xxxxxxx \
+  -e FUNCTION_NAME=upload-s3 \
+  -e S3_BUCKET=some-bucket \
+  -e S3_KEY=lambda-project.zip \
+  appleboy/drone-lambda
+```
+
+<a name="usage-from-drone-ci"></a>
+### Usage from drone ci
+#### Update lambda function
+
+Execute from the working directory:
+
+```bash
+docker run --rm \
+  -e AWS_ACCESS_KEY_ID=xxxxxxx \
+  -e AWS_SECRET_ACCESS_KEY=xxxxxxx \
+  -e FUNCTION_NAME=upload-s3 \
+  -e ZIP_FILE=deployment.zip \
+  -v $(pwd):$(pwd) \
+  -w $(pwd) \
+  appleboy/drone-lambda
+```

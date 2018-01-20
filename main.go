@@ -57,17 +57,17 @@ func main() {
 		cli.StringFlag{
 			Name:   "function-name",
 			Usage:  "AWS lambda function name",
-			EnvVar: "PLUGIN_FUNCTION_NAME",
+			EnvVar: "PLUGIN_FUNCTION_NAME,FUNCTION_NAME",
 		},
 		cli.StringFlag{
 			Name:   "s3-bucket",
 			Usage:  "AWS lambda S3 bucket",
-			EnvVar: "PLUGIN_S3_BUCKET",
+			EnvVar: "PLUGIN_S3_BUCKET,S3_BUCKET",
 		},
 		cli.StringFlag{
 			Name:   "s3-key",
 			Usage:  "AWS lambda S3 bucket key",
-			EnvVar: "PLUGIN_S3_KEY",
+			EnvVar: "PLUGIN_S3_KEY,S3_KEY",
 		},
 		cli.StringFlag{
 			Name:   "s3-object-version",
@@ -77,7 +77,7 @@ func main() {
 		cli.StringFlag{
 			Name:   "zip-file",
 			Usage:  "AWS lambda zip file",
-			EnvVar: "PLUGIN_ZIP_FILE",
+			EnvVar: "PLUGIN_ZIP_FILE,ZIP_FILE",
 		},
 	}
 
