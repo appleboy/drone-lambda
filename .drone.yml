@@ -24,7 +24,7 @@ pipeline:
     secrets: [ line_to, line_channel_secret, line_channel_token ]
     commands:
       - make test
-      - make coverage
+      # - make coverage
 
   build_linux_amd64:
     image: appleboy/golang-testing:1.9.2
