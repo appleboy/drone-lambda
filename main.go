@@ -108,6 +108,7 @@ func run(c *cli.Context) error {
 			S3Key:           c.String("s3-key"),
 			S3ObjectVersion: c.String("s3-object-version"),
 			ZipFile:         c.String("zip-file"),
+			FunctionName:    c.String("function-name"),
 		},
 	}
 
