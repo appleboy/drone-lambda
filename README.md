@@ -110,9 +110,8 @@ docker run --rm \
 
 <a name="usage-from-drone-ci"></a>
 ### Usage from drone ci
-#### Update lambda function
 
-Execute from the working directory:
+Update lambda function, execute from the working directory:
 
 ```bash
 docker run --rm \
