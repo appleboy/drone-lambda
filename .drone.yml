@@ -63,7 +63,7 @@ pipeline:
   #     event: [ push, pull_request ]
 
   release:
-    image: appleboy/golang-testing:1.9.1
+    image: appleboy/golang-testing:1.9.2
     group: release
     commands:
       - make release
