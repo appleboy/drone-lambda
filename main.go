@@ -74,6 +74,11 @@ func main() {
 			Usage:  "AWS lambda s3 object version",
 			EnvVar: "PLUGIN_S3_OBJECT_VERSION",
 		},
+		cli.StringFlag{
+			Name:   "zip-file",
+			Usage:  "AWS lambda zip file",
+			EnvVar: "PLUGIN_ZIP_FILE",
+		},
 	}
 
 	app.Version = Version
@@ -102,6 +107,7 @@ func run(c *cli.Context) error {
 			S3Bucket:        c.String("s3-bucket"),
 			S3Key:           c.String("s3-key"),
 			S3ObjectVersion: c.String("s3-object-version"),
+			ZipFile:         c.String("zip-file"),
 		},
 	}
 

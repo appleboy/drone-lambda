@@ -1,6 +1,9 @@
 package main
 
 import (
+	"errors"
+	"io/ioutil"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -20,6 +23,7 @@ type (
 		S3Bucket        string
 		S3Key           string
 		S3ObjectVersion string
+		ZipFile         string
 	}
 
 	// Plugin values.
@@ -30,6 +34,10 @@ type (
 
 // Exec executes the plugin.
 func (p Plugin) Exec() error {
+	if p.Config.FunctionName == "" {
+		return errors.New("missing lambda function name")
+	}
+
 	// Create Lambda service client
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
@@ -55,6 +63,17 @@ func (p Plugin) Exec() error {
 		if p.Config.S3ObjectVersion != "" {
 			input.S3ObjectVersion = aws.String(p.Config.S3ObjectVersion)
 		}
+	}
+
+	if p.Config.ZipFile != "" {
+		contents, err := ioutil.ReadFile(p.Config.ZipFile)
+
+		if err != nil {
+			logrus.Println("Could not read " + p.Config.ZipFile)
+			return err
+		}
+
+		input.ZipFile = contents
 	}
 
 	svc := lambda.New(sess, config)
