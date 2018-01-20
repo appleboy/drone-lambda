@@ -9,3 +9,11 @@
 [![Release](https://github-release-version.herokuapp.com/github/appleboy/drone-lambda/release.svg?style=flat)](https://github.com/appleboy/drone-lambda/releases/latest)
 
 Deploying Lambda code with drone CI to an existing function
+
+## Build or Download a binary
+
+The pre-compiled binaries can be downloaded from [release page](https://github.com/appleboy/drone-lambda/releases). Support the following OS type.
+
+* Windows amd64/386
+* Linux amd64/386
+* Darwin amd64/386
