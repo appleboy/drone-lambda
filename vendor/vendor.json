@@ -1,0 +1,25 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "ztZ7NgU6sSRXguf1pONn/VhD7Kc=",
+			"path": "github.com/joho/godotenv",
+			"revision": "6bb08516677f8c8274c557fc801bee9ab564ab2c",
+			"revisionTime": "2018-01-15T02:49:21Z"
+		},
+		{
+			"checksumSHA1": "UE4lhbPYYWEhqHXQk24OA73m5+8=",
+			"path": "github.com/joho/godotenv/autoload",
+			"revision": "6bb08516677f8c8274c557fc801bee9ab564ab2c",
+			"revisionTime": "2018-01-15T02:49:21Z"
+		},
+		{
+			"checksumSHA1": "H1Ne82yYzWRQ2DKBsmRd0Hwcl04=",
+			"path": "github.com/urfave/cli",
+			"revision": "75104e932ac2ddb944a6ea19d9f9f26316ff1145",
+			"revisionTime": "2018-01-06T19:10:48Z"
+		}
+	],
+	"rootPath": "github.com/appleboy/drone-lambda"
+}
