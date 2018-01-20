@@ -7,6 +7,8 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/appleboy/drone-lambda.svg)](https://hub.docker.com/r/appleboy/drone-lambda/)
 [![](https://images.microbadger.com/badges/image/appleboy/drone-lambda.svg)](https://microbadger.com/images/appleboy/drone-lambda "Get your own image badge on microbadger.com")
 [![Release](https://github-release-version.herokuapp.com/github/appleboy/drone-lambda/release.svg?style=flat)](https://github.com/appleboy/drone-lambda/releases/latest)
+[![Build status](https://ci.appveyor.com/api/projects/status/cuioqombam9yufdy/branch/master?svg=true)](https://ci.appveyor.com/project/appleboy/drone-lambda/branch/master)
+
 
 Deploying Lambda code with drone CI to an existing function
 
