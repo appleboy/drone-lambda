@@ -1,11 +1,11 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
 
@@ -54,6 +54,26 @@ func main() {
 			Usage:  "AWS profile",
 			EnvVar: "PLUGIN_PROFILE,AWS_PROFILE",
 		},
+		cli.StringFlag{
+			Name:   "function-name",
+			Usage:  "AWS lambda function name",
+			EnvVar: "PLUGIN_FUNCTION_NAME",
+		},
+		cli.StringFlag{
+			Name:   "s3-bucket",
+			Usage:  "AWS lambda S3 bucket",
+			EnvVar: "PLUGIN_S3_BUCKET",
+		},
+		cli.StringFlag{
+			Name:   "s3-key",
+			Usage:  "AWS lambda S3 bucket key",
+			EnvVar: "PLUGIN_S3_KEY",
+		},
+		cli.StringFlag{
+			Name:   "s3-object-version",
+			Usage:  "AWS lambda s3 object version",
+			EnvVar: "PLUGIN_S3_OBJECT_VERSION",
+		},
 	}
 
 	app.Version = Version
@@ -64,7 +84,7 @@ func main() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		log.Println(err)
+		logrus.Warningln(err)
 	}
 }
 
@@ -75,9 +95,13 @@ func run(c *cli.Context) error {
 
 	plugin := Plugin{
 		Config: Config{
-			Region:    c.String("region"),
-			AccessKey: c.String("access-key"),
-			SecretKey: c.String("secret-key"),
+			Region:          c.String("region"),
+			AccessKey:       c.String("access-key"),
+			SecretKey:       c.String("secret-key"),
+			Profile:         c.String("aws-profile"),
+			S3Bucket:        c.String("s3-bucket"),
+			S3Key:           c.String("s3-key"),
+			S3ObjectVersion: c.String("s3-object-version"),
 		},
 	}
 
