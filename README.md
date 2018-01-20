@@ -123,3 +123,23 @@ docker run --rm \
   -w $(pwd) \
   appleboy/drone-lambda
 ```
+
+## AWS Policy
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "iam:ListRoles",
+        "lambda:UpdateFunctionCode",
+        "lambda:CreateFunction"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    }
+  ]
+}
+```
