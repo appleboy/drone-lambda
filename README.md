@@ -126,6 +126,8 @@ docker run --rm \
 
 ## AWS Policy
 
+Add the following AWS policy if you want to integrate with CI/CD tools like Jenkins, GitLab Ci or Drone.
+
 ```json
 {
   "Version": "2012-10-17",
