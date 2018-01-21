@@ -3,12 +3,16 @@ package main
 import (
 	"errors"
 	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
+	"github.com/mholt/archiver"
 	"github.com/sirupsen/logrus"
 )
 
@@ -24,6 +28,7 @@ type (
 		S3Key           string
 		S3ObjectVersion string
 		ZipFile         string
+		Source          []string
 	}
 
 	// Plugin values.
@@ -62,6 +67,18 @@ func (p Plugin) Exec() error {
 
 		if p.Config.S3ObjectVersion != "" {
 			input.S3ObjectVersion = aws.String(p.Config.S3ObjectVersion)
+		}
+	}
+
+	if len(p.Config.Source) != 0 {
+		files := globList(trimPath(p.Config.Source))
+		path := os.TempDir() + "/output.zip"
+		if len(files) != 0 {
+			if err := archiver.Zip.Make(path, files); err != nil {
+				logrus.Warnf("can't create zip file: %s", err.Error())
+			}
+
+			p.Config.ZipFile = path
 		}
 	}
 
@@ -106,4 +123,36 @@ func (p Plugin) Exec() error {
 	logrus.Println(result)
 
 	return nil
+}
+
+func trimPath(keys []string) []string {
+	var newKeys []string
+
+	for _, value := range keys {
+		value = strings.Trim(value, " ")
+		if len(value) == 0 {
+			continue
+		}
+
+		newKeys = append(newKeys, value)
+	}
+
+	return newKeys
+}
+
+func globList(paths []string) []string {
+	var newPaths []string
+
+	for _, pattern := range paths {
+		pattern = strings.Trim(pattern, " ")
+		matches, err := filepath.Glob(pattern)
+		if err != nil {
+			logrus.Warnf("Glob error for %q: %s\n", pattern, err)
+			continue
+		}
+
+		newPaths = append(newPaths, matches...)
+	}
+
+	return newPaths
 }

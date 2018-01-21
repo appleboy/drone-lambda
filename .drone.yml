@@ -69,19 +69,6 @@ pipeline:
     when:
       event: [ tag ]
 
-  publish_alpine:
-    image: plugins/docker
-    group: release
-    pull: true
-    dockerfile: Dockerfile.alpine
-    secrets: [ docker_username, docker_password ]
-    default_tags: true
-    default_suffix: alpine
-    repo: ${DRONE_REPO}
-    when:
-      event: [ push, tag ]
-      local: false
-
   publish_linux_amd64:
     image: plugins/docker:17.05
     pull: true
