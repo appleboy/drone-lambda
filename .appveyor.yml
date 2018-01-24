@@ -34,11 +34,11 @@ build_script:
       }
       dir
       docker pull microsoft/nanoserver:10.0.14393.1884
-      docker build -f Dockerfile.windows -t appleboy/drone-lambda:windows .
+      docker build -f Dockerfile.windows -t appleboy/drone-lambda:windows-amd64 .
 
 test_script:
   - ps: |
-      docker run --rm appleboy/drone-lambda:windows --version
+      docker run --rm appleboy/drone-lambda:windows-amd64 --version
 
 deploy_script:
   - ps: |
@@ -49,15 +49,15 @@ deploy_script:
         if ( $env:APPVEYOR_REPO_TAG -eq 'true' ) {
           $major,$minor,$patch = $env:APPVEYOR_REPO_TAG_NAME.split('.')
           docker push appleboy/drone-lambda:windows
-          docker tag appleboy/drone-lambda:windows appleboy/drone-lambda:$major.$minor.$patch-windows
-          docker push appleboy/drone-lambda:$major.$minor.$patch-windows
-          docker tag appleboy/drone-lambda:windows appleboy/drone-lambda:$major.$minor-windows
-          docker push appleboy/drone-lambda:$major.$minor-windows
-          docker tag appleboy/drone-lambda:windows appleboy/drone-lambda:$major-windows
-          docker push appleboy/drone-lambda:$major-windows
+          docker tag appleboy/drone-lambda:windows appleboy/drone-lambda:$major.$minor.$patch-windows-amd64
+          docker push appleboy/drone-lambda:$major.$minor.$patch-windows-amd64
+          docker tag appleboy/drone-lambda:windows appleboy/drone-lambda:$major.$minor-windows-amd64
+          docker push appleboy/drone-lambda:$major.$minor-windows-amd64
+          docker tag appleboy/drone-lambda:windows appleboy/drone-lambda:$major-windows-amd64
+          docker push appleboy/drone-lambda:$major-windows-amd64
         } else {
           if ( $env:APPVEYOR_REPO_BRANCH -eq 'master' ) {
-            docker push appleboy/drone-lambda:windows
+            docker push appleboy/drone-lambda:windows-amd64
           }
         }
       }
