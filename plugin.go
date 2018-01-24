@@ -63,6 +63,10 @@ func (p Plugin) Exec() error {
 		config.Credentials = credentials.NewSharedCredentials("", p.Config.Profile)
 	}
 
+	if p.Config.AccessKey != "" && p.Config.SecretKey != "" {
+		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, "")
+	}
+
 	input := &lambda.UpdateFunctionCodeInput{
 		FunctionName: aws.String(p.Config.FunctionName),
 		Publish:      aws.Bool(true),
