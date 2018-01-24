@@ -88,7 +88,7 @@ pipeline:
     group: release
     repo: ${DRONE_REPO}
     auto_tag: true
-    auto_tag_suffix: i386
+    auto_tag_suffix: linux-i386
     dockerfile: Dockerfile.i386
     when:
       event: [ push, tag ]
@@ -101,7 +101,7 @@ pipeline:
     group: release
     repo: ${DRONE_REPO}
     auto_tag: true
-    auto_tag_suffix: arm64
+    auto_tag_suffix: linux-arm64
     dockerfile: Dockerfile.arm64
     when:
       event: [ push, tag ]
@@ -114,7 +114,7 @@ pipeline:
     group: release
     repo: ${DRONE_REPO}
     auto_tag: true
-    auto_tag_suffix: arm
+    auto_tag_suffix: linux-arm
     dockerfile: Dockerfile.arm
     when:
       event: [ push, tag ]

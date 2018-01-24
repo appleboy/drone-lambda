@@ -43,6 +43,13 @@ func (p Plugin) Exec() error {
 		return errors.New("missing lambda function name")
 	}
 
+	if p.Config.S3Bucket == "" &&
+		p.Config.S3Key == "" &&
+		len(p.Config.Source) == 0 &&
+		p.Config.ZipFile == "" {
+		return errors.New("missing zip source")
+	}
+
 	// Create Lambda service client
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
