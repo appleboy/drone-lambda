@@ -70,19 +70,19 @@ pipeline:
       event: [ tag ]
 
   publish_linux_amd64:
-    image: plugins/docker:17.05
-    pull: true
-    secrets: [ docker_username, docker_password ]
+    image: plugins/docker:17.12
     group: release
+    pull: true
     repo: ${DRONE_REPO}
+    secrets: [ docker_username, docker_password ]
     auto_tag: true
-    dockerfile: Dockerfile
+    auto_tag_suffix: linux-amd64
     when:
       event: [ push, tag ]
       local: false
 
   publish_linux_i386:
-    image: plugins/docker:17.05
+    image: plugins/docker:17.12
     pull: true
     secrets: [ docker_username, docker_password ]
     group: release
@@ -95,7 +95,7 @@ pipeline:
       local: false
 
   publish_linux_arm64:
-    image: plugins/docker:17.05
+    image: plugins/docker:17.12
     pull: true
     secrets: [ docker_username, docker_password ]
     group: release
@@ -108,7 +108,7 @@ pipeline:
       local: false
 
   publish_linux_arm:
-    image: plugins/docker:17.05
+    image: plugins/docker:17.12
     pull: true
     secrets: [ docker_username, docker_password ]
     group: release
