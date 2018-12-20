@@ -10,55 +10,58 @@ clone:
 
 pipeline:
   lint:
-    image: appleboy/golang-testing:1.9.2
+    image: golang:1.11
+    pull: true
     group: testing
+    environment:
+      - GO111MODULE=on
     commands:
       - make vet
       - make lint
-      - make test-vendor
       - make misspell-check
 
   test:
-    image: appleboy/golang-testing:1.9.2
+    image: golang:1.11
+    pull: true
     group: testing
+    environment:
+      - GO111MODULE=on
     commands:
       - make test
-      # - make coverage
 
-  build_linux_amd64_with_module:
+  build_linux_amd64:
     image: golang:1.11
     pull: true
     group: build
     environment:
-      GO111MODULE: "on"
-    commands:
-      - make build_linux_amd64
-
-  build_linux_amd64:
-    image: appleboy/golang-testing:1.9.2
-    pull: true
-    group: build
+      - GO111MODULE=on
     commands:
       - make build_linux_amd64
 
   build_linux_i386:
-    image: appleboy/golang-testing:1.9.2
+    image: golang:1.11
     pull: true
     group: build
+    environment:
+      - GO111MODULE=on
     commands:
       - make build_linux_i386
 
   build_linux_arm64:
-    image: appleboy/golang-testing:1.9.2
+    image: golang:1.11
     pull: true
     group: build
+    environment:
+      - GO111MODULE=on
     commands:
       - make build_linux_arm64
 
   build_linux_arm:
-    image: appleboy/golang-testing:1.9.2
+    image: golang:1.11
     pull: true
     group: build
+    environment:
+      - GO111MODULE=on
     commands:
       - make build_linux_arm
 
@@ -71,8 +74,11 @@ pipeline:
   #     event: [ push, pull_request ]
 
   release:
-    image: appleboy/golang-testing:1.9.2
+    image: golang:1.11
+    pull: true
     group: release
+    environment:
+      - GO111MODULE=on
     commands:
       - make release
     when:
