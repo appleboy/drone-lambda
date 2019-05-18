@@ -84,8 +84,9 @@ func (p Plugin) Exec() error {
 	if len(p.Config.Source) != 0 {
 		files := globList(trimPath(p.Config.Source))
 		path := os.TempDir() + "/output.zip"
+		zip := archiver.NewZip()
 		if len(files) != 0 {
-			if err := archiver.Zip.Make(path, files); err != nil {
+			if err := zip.Archive(files, path); err != nil {
 				logrus.Warnf("can't create zip file: %s", err.Error())
 			}
 
