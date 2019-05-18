@@ -1,11 +1,11 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
-	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
 
@@ -92,9 +92,8 @@ func main() {
 		app.Version = app.Version + "+" + BuildNum
 	}
 
-	err := app.Run(os.Args)
-	if err != nil {
-		logrus.Warningln(err)
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
 	}
 }
 

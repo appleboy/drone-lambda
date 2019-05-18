@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -13,7 +14,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/mholt/archiver"
-	"github.com/sirupsen/logrus"
 )
 
 type (
@@ -87,7 +87,7 @@ func (p Plugin) Exec() error {
 		zip := archiver.NewZip()
 		if len(files) != 0 {
 			if err := zip.Archive(files, path); err != nil {
-				logrus.Warnf("can't create zip file: %s", err.Error())
+				log.Warnf("can't create zip file: %s", err.Error())
 			}
 
 			p.Config.ZipFile = path
@@ -98,7 +98,7 @@ func (p Plugin) Exec() error {
 		contents, err := ioutil.ReadFile(p.Config.ZipFile)
 
 		if err != nil {
-			logrus.Println("Could not read " + p.Config.ZipFile)
+			log.Println("Could not read " + p.Config.ZipFile)
 			return err
 		}
 
@@ -112,27 +112,27 @@ func (p Plugin) Exec() error {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
 			case lambda.ErrCodeServiceException:
-				logrus.Println(lambda.ErrCodeServiceException, aerr.Error())
+				log.Println(lambda.ErrCodeServiceException, aerr.Error())
 			case lambda.ErrCodeResourceNotFoundException:
-				logrus.Println(lambda.ErrCodeResourceNotFoundException, aerr.Error())
+				log.Println(lambda.ErrCodeResourceNotFoundException, aerr.Error())
 			case lambda.ErrCodeInvalidParameterValueException:
-				logrus.Println(lambda.ErrCodeInvalidParameterValueException, aerr.Error())
+				log.Println(lambda.ErrCodeInvalidParameterValueException, aerr.Error())
 			case lambda.ErrCodeTooManyRequestsException:
-				logrus.Println(lambda.ErrCodeTooManyRequestsException, aerr.Error())
+				log.Println(lambda.ErrCodeTooManyRequestsException, aerr.Error())
 			case lambda.ErrCodeCodeStorageExceededException:
-				logrus.Println(lambda.ErrCodeCodeStorageExceededException, aerr.Error())
+				log.Println(lambda.ErrCodeCodeStorageExceededException, aerr.Error())
 			default:
-				logrus.Println(aerr.Error())
+				log.Println(aerr.Error())
 			}
 		} else {
 			// Print the error, cast err to awserr.Error to get the Code and
 			// Message from an error.
-			logrus.Println(err.Error())
+			log.Println(err.Error())
 		}
 		return err
 	}
 
-	logrus.Println(result)
+	log.Println(result)
 
 	return nil
 }
@@ -159,7 +159,7 @@ func globList(paths []string) []string {
 		pattern = strings.Trim(pattern, " ")
 		matches, err := filepath.Glob(pattern)
 		if err != nil {
-			logrus.Warnf("Glob error for %q: %s\n", pattern, err)
+			log.Warnf("Glob error for %q: %s\n", pattern, err)
 			continue
 		}
 
