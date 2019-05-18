@@ -1,7 +1,7 @@
 # drone-lambda
 
 [![GoDoc](https://godoc.org/github.com/appleboy/drone-lambda?status.svg)](https://godoc.org/github.com/appleboy/drone-lambda)
-[![Build Status](http://drone.wu-boy.com/api/badges/appleboy/drone-lambda/status.svg)](http://drone.wu-boy.com/appleboy/drone-lambda)
+[![Build Status](https://cloud.drone.io/api/badges/appleboy/drone-lambda/status.svg)](https://cloud.drone.io/appleboy/drone-lambda)
 [![codecov](https://codecov.io/gh/appleboy/drone-lambda/branch/master/graph/badge.svg)](https://codecov.io/gh/appleboy/drone-lambda)
 [![Go Report Card](https://goreportcard.com/badge/github.com/appleboy/drone-lambda)](https://goreportcard.com/report/github.com/appleboy/drone-lambda)
 [![Docker Pulls](https://img.shields.io/docker/pulls/appleboy/drone-lambda.svg)](https://hub.docker.com/r/appleboy/drone-lambda/)
@@ -52,9 +52,14 @@ docker: Error response from daemon: Container command
 
 There are three ways to send notification.
 
-* [usage from binary](#usage-from-binary)
-* [usage from docker](#usage-from-docker)
-* [usage from drone ci](#usage-from-drone-ci)
+- [drone-lambda](#drone-lambda)
+  - [Build or Download a binary](#build-or-download-a-binary)
+  - [Docker](#docker)
+  - [Usage](#usage)
+    - [Usage from binary](#usage-from-binary)
+    - [Usage from docker](#usage-from-docker)
+    - [Usage from drone ci](#usage-from-drone-ci)
+  - [AWS Policy](#aws-policy)
 
 <a name="usage-from-binary"></a>
 ### Usage from binary
