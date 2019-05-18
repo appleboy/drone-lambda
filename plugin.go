@@ -87,7 +87,7 @@ func (p Plugin) Exec() error {
 		zip := archiver.NewZip()
 		if len(files) != 0 {
 			if err := zip.Archive(files, path); err != nil {
-				log.Warnf("can't create zip file: %s", err.Error())
+				log.Fatalf("can't create zip file: %s", err.Error())
 			}
 
 			p.Config.ZipFile = path
@@ -159,7 +159,7 @@ func globList(paths []string) []string {
 		pattern = strings.Trim(pattern, " ")
 		matches, err := filepath.Glob(pattern)
 		if err != nil {
-			log.Warnf("Glob error for %q: %s\n", pattern, err)
+			log.Printf("Glob error for %q: %s\n", pattern, err)
 			continue
 		}
 
