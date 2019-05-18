@@ -2,7 +2,6 @@ version: '{build}'
 image: 'Visual Studio 2017'
 platform: x64
 
-clone_folder: 'c:\go\src\github.com\appleboy\drone-lambda'
 max_jobs: 1
 
 environment:
@@ -20,19 +19,19 @@ install:
   - ps: |
       docker version
       go version
-  - ps: |
-      $env:Path = "c:\go\bin;$env:Path"
+      go env
 
 build_script:
   - ps: |
       if ( $env:APPVEYOR_REPO_TAG -eq 'false' ) {
-        go build -ldflags "-X main.Version=$env:APPVEYOR_REPO_COMMIT -X main.BuildNum=$env:APPVEYOR_BUILD_VERSION" -a -o release/drone-lambda.exe
+        $version = $env:APPVEYOR_REPO_COMMIT
       } else {
         $version = $env:APPVEYOR_REPO_TAG_NAME
-        go build -ldflags "-X main.Version=$version -X main.BuildNum=$env:APPVEYOR_BUILD_VERSION" -a -o release/drone-lambda.exe
       }
+      go build -ldflags "-X main.Version=$version" -a -o release/drone-lambda.exe .
+
       docker pull microsoft/nanoserver:10.0.14393.1884
-      docker build -f Dockerfile.windows -t appleboy/drone-lambda:windows-amd64 .
+      docker build -f docker/Dockerfile.windows.amd64 -t appleboy/drone-lambda:windows-amd64 .
 
 test_script:
   - ps: |
@@ -48,13 +47,10 @@ deploy_script:
         if ( $env:APPVEYOR_REPO_TAG -eq 'true' ) {
           $major,$minor,$patch = $env:APPVEYOR_REPO_TAG_NAME.split('.')
           docker push appleboy/drone-lambda:windows-amd64
-
           docker tag appleboy/drone-lambda:windows-amd64 appleboy/drone-lambda:$major.$minor.$patch-windows-amd64
           docker push appleboy/drone-lambda:$major.$minor.$patch-windows-amd64
-
           docker tag appleboy/drone-lambda:windows-amd64 appleboy/drone-lambda:$major.$minor-windows-amd64
           docker push appleboy/drone-lambda:$major.$minor-windows-amd64
-
           docker tag appleboy/drone-lambda:windows-amd64 appleboy/drone-lambda:$major-windows-amd64
           docker push appleboy/drone-lambda:$major-windows-amd64
         } else {

@@ -1,9 +1,10 @@
 FROM microsoft/nanoserver:10.0.14393.1884
 
 LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>" \
-  org.label-schema.name="Drone Lambda" \
+  org.label-schema.name="Drone lambda" \
   org.label-schema.vendor="Bo-Yi Wu" \
   org.label-schema.schema-version="1.0"
 
-ADD release/drone-lambda.exe /drone-lambda.exe
-ENTRYPOINT [ "\\drone-lambda.exe" ]
+COPY release/drone-lambda.exe C:/bin/drone-lambda.exe
+
+ENTRYPOINT [ "C:\\bin\\drone-lambda.exe" ]
