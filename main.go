@@ -11,15 +11,19 @@ import (
 
 // Version set at compile-time
 var (
-	Version  string
-	BuildNum string
+	Version string
 )
 
 func main() {
+	// Load env-file if it exists first
+	if filename, found := os.LookupEnv("PLUGIN_ENV_FILE"); found {
+		_ = godotenv.Load(filename)
+	}
+
 	app := cli.NewApp()
 	app.Name = "Drone Lambda"
 	app.Usage = "Deploying Lambda code with drone CI to an existing function"
-	app.Copyright = "Copyright (c) 2018 Bo-Yi Wu"
+	app.Copyright = "Copyright (c) 2019 Bo-Yi Wu"
 	app.Authors = []cli.Author{
 		{
 			Name:  "Bo-Yi Wu",
@@ -27,6 +31,7 @@ func main() {
 		},
 	}
 	app.Action = run
+	app.Version = Version
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:   "region",
@@ -86,22 +91,12 @@ func main() {
 		},
 	}
 
-	app.Version = Version
-
-	if BuildNum != "" {
-		app.Version = app.Version + "+" + BuildNum
-	}
-
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func run(c *cli.Context) error {
-	if c.String("env-file") != "" {
-		_ = godotenv.Load(c.String("env-file"))
-	}
-
 	plugin := Plugin{
 		Config: Config{
 			Region:          c.String("region"),
