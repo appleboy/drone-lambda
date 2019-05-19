@@ -90,7 +90,7 @@ func main() {
 			EnvVar: "PLUGIN_SOURCE,SOURCE",
 		},
 		cli.BoolFlag{
-			Name:   "sync",
+			Name:   "dry-run",
 			Usage:  "Set to true to validate the request parameters and access permissions without modifying the function code.",
 			EnvVar: "PLUGIN_DRY_RUN,DRY_RUN",
 		},
@@ -114,6 +114,7 @@ func run(c *cli.Context) error {
 			ZipFile:         c.String("zip-file"),
 			FunctionName:    c.String("function-name"),
 			Source:          c.StringSlice("source"),
+			DryRun:          c.Bool("dry-run"),
 		},
 	}
 
