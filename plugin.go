@@ -27,6 +27,7 @@ type (
 		S3Bucket        string
 		S3Key           string
 		S3ObjectVersion string
+		DryRun          bool
 		ZipFile         string
 		Source          []string
 	}
@@ -68,6 +69,7 @@ func (p Plugin) Exec() error {
 	}
 
 	input := &lambda.UpdateFunctionCodeInput{
+		DryRun:       aws.Bool(p.Config.DryRun),
 		FunctionName: aws.String(p.Config.FunctionName),
 		Publish:      aws.Bool(true),
 	}
