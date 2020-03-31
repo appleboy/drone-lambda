@@ -94,6 +94,11 @@ func main() {
 			Usage:  "Set to true to validate the request parameters and access permissions without modifying the function code.",
 			EnvVar: "PLUGIN_DRY_RUN,DRY_RUN,INPUT_DRY_RUN",
 		},
+		cli.BoolFlag{
+			Name:   "debug",
+			Usage:  "Show debug message after upload the lambda successfully.",
+			EnvVar: "PLUGIN_DEBUG,DEBUG,INPUT_DEBUG",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -115,6 +120,7 @@ func run(c *cli.Context) error {
 			FunctionName:    c.String("function-name"),
 			Source:          c.StringSlice("source"),
 			DryRun:          c.Bool("dry-run"),
+			Debug:           c.Bool("debug"),
 		},
 	}
 

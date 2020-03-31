@@ -30,6 +30,7 @@ type (
 		DryRun          bool
 		ZipFile         string
 		Source          []string
+		Debug           bool
 	}
 
 	// Plugin values.
@@ -134,7 +135,9 @@ func (p Plugin) Exec() error {
 		return err
 	}
 
-	log.Println(result)
+	if p.Config.Debug {
+		log.Println(result)
+	}
 
 	return nil
 }
