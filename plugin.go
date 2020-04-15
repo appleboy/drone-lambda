@@ -24,6 +24,7 @@ type (
 		SecretKey       string
 		Profile         string
 		FunctionName    string
+		ReversionID     string
 		S3Bucket        string
 		S3Key           string
 		S3ObjectVersion string
@@ -69,18 +70,21 @@ func (p Plugin) Exec() error {
 		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, "")
 	}
 
-	input := &lambda.UpdateFunctionCodeInput{
-		DryRun:       aws.Bool(p.Config.DryRun),
-		FunctionName: aws.String(p.Config.FunctionName),
-		Publish:      aws.Bool(true),
+	input := &lambda.UpdateFunctionCodeInput{}
+	input.SetDryRun(p.Config.DryRun)
+	input.SetFunctionName(p.Config.FunctionName)
+	input.SetPublish(true)
+
+	if p.Config.ReversionID != "" {
+		input.SetRevisionId(p.Config.ReversionID)
 	}
 
 	if p.Config.S3Bucket != "" && p.Config.S3Key != "" {
-		input.S3Bucket = aws.String(p.Config.S3Bucket)
-		input.S3Key = aws.String(p.Config.S3Key)
+		input.SetS3Key(p.Config.S3Key)
+		input.SetS3Bucket(p.Config.S3Bucket)
 
 		if p.Config.S3ObjectVersion != "" {
-			input.S3ObjectVersion = aws.String(p.Config.S3ObjectVersion)
+			input.SetS3ObjectVersion(p.Config.S3ObjectVersion)
 		}
 	}
 

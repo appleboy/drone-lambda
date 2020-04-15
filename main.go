@@ -65,6 +65,11 @@ func main() {
 			EnvVar: "PLUGIN_FUNCTION_NAME,FUNCTION_NAME,INPUT_FUNCTION_NAME",
 		},
 		cli.StringFlag{
+			Name:   "reversion-id",
+			Usage:  "Only update the function if the revision ID matches the ID that's specified.",
+			EnvVar: "PLUGIN_REVERSION_ID,REVERSION_ID,INPUT_REVERSION_ID",
+		},
+		cli.StringFlag{
 			Name:   "s3-bucket",
 			Usage:  "An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.",
 			EnvVar: "PLUGIN_S3_BUCKET,S3_BUCKET,INPUT_S3_BUCKET",
@@ -118,6 +123,7 @@ func run(c *cli.Context) error {
 			S3ObjectVersion: c.String("s3-object-version"),
 			ZipFile:         c.String("zip-file"),
 			FunctionName:    c.String("function-name"),
+			ReversionID:     c.String("reversion-id"),
 			Source:          c.StringSlice("source"),
 			DryRun:          c.Bool("dry-run"),
 			Debug:           c.Bool("debug"),
