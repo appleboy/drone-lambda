@@ -13,7 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
-	"github.com/mholt/archiver"
+	"github.com/mholt/archiver/v3"
 )
 
 type (
