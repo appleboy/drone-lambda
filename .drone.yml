@@ -47,12 +47,6 @@ steps:
   - make test
   - make coverage
   environment:
-    FB_PAGE_TOKEN:
-      from_secret: fb_page_token
-    FB_TO:
-      from_secret: fb_to
-    FB_VERIFY_TOKEN:
-      from_secret: fb_verify_token
     GO111MODULE: on
   volumes:
   - name: gopath

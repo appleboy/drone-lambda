@@ -64,9 +64,6 @@
         pull: 'always',
         environment: {
           GO111MODULE: 'on',
-          FB_PAGE_TOKEN: { 'from_secret': 'fb_page_token' },
-          FB_VERIFY_TOKEN: { 'from_secret': 'fb_verify_token' },
-          FB_TO: { 'from_secret': 'fb_to' },
         },
         commands: [
           'make test',
