@@ -104,6 +104,11 @@ func main() {
 			Usage:  "Show debug message after upload the lambda successfully.",
 			EnvVar: "PLUGIN_DEBUG,DEBUG,INPUT_DEBUG",
 		},
+		cli.BoolTFlag{
+			Name:   "publish",
+			Usage:  "Set to true to publish a new version of the function after updating the code.",
+			EnvVar: "PLUGIN_PUBLISH,PUBLISH,INPUT_PUBLISH",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -127,6 +132,7 @@ func run(c *cli.Context) error {
 			Source:          c.StringSlice("source"),
 			DryRun:          c.Bool("dry-run"),
 			Debug:           c.Bool("debug"),
+			Publish:         c.Bool("publish"),
 		},
 	}
 

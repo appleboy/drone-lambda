@@ -32,6 +32,7 @@ type (
 		ZipFile         string
 		Source          []string
 		Debug           bool
+		Publish         bool
 	}
 
 	// Plugin values.
@@ -73,7 +74,7 @@ func (p Plugin) Exec() error {
 	input := &lambda.UpdateFunctionCodeInput{}
 	input.SetDryRun(p.Config.DryRun)
 	input.SetFunctionName(p.Config.FunctionName)
-	input.SetPublish(true)
+	input.SetPublish(p.Config.Publish)
 
 	if p.Config.ReversionID != "" {
 		input.SetRevisionId(p.Config.ReversionID)
