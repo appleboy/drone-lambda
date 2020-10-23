@@ -3,7 +3,7 @@ module github.com/appleboy/drone-lambda
 go 1.14
 
 require (
-	github.com/aws/aws-sdk-go v1.30.7
+	github.com/aws/aws-sdk-go v1.35.13
 	github.com/frankban/quicktest v1.9.0 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/mholt/archiver/v3 v3.3.0
