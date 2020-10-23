@@ -35,6 +35,7 @@ type (
 		Publish         bool
 		MemorySize      int64
 		Timeout         int64
+		Handler         string
 	}
 
 	// Plugin values.
@@ -122,6 +123,9 @@ func (p Plugin) Exec() error {
 	}
 	if p.Config.Timeout > 0 {
 		cfg.SetTimeout(p.Config.Timeout)
+	}
+	if len(p.Config.Handler) > 0 {
+		cfg.SetHandler(p.Config.Handler)
 	}
 
 	svc := lambda.New(sess, config)

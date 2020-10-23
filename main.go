@@ -119,6 +119,11 @@ func main() {
 			Usage:  "The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.",
 			EnvVar: "PLUGIN_TIMEOUT,TIMEOUT,INPUT_TIMEOUT",
 		},
+		cli.StringFlag{
+			Name:   "handler",
+			Usage:  "The name of the method within your code that Lambda calls to execute your function.",
+			EnvVar: "PLUGIN_HANDLER,HANDLER,INPUT_HANDLER",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -145,6 +150,7 @@ func run(c *cli.Context) error {
 			Publish:         c.Bool("publish"),
 			Timeout:         c.Int64("timeout"),
 			MemorySize:      c.Int64("memory-size"),
+			Handler:         c.String("handler"),
 		},
 	}
 
