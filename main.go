@@ -109,6 +109,16 @@ func main() {
 			Usage:  "Set to true to publish a new version of the function after updating the code.",
 			EnvVar: "PLUGIN_PUBLISH,PUBLISH,INPUT_PUBLISH",
 		},
+		cli.Int64Flag{
+			Name:   "memory-size",
+			Usage:  "The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.",
+			EnvVar: "PLUGIN_MEMORY_SIZE,MEMORY_SIZE,INPUT_MEMORY_SIZE",
+		},
+		cli.Int64Flag{
+			Name:   "timeout",
+			Usage:  "The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.",
+			EnvVar: "PLUGIN_TIMEOUT,TIMEOUT,INPUT_TIMEOUT",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -133,6 +143,8 @@ func run(c *cli.Context) error {
 			DryRun:          c.Bool("dry-run"),
 			Debug:           c.Bool("debug"),
 			Publish:         c.Bool("publish"),
+			Timeout:         c.Int64("timeout"),
+			MemorySize:      c.Int64("memory-size"),
 		},
 	}
 

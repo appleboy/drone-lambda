@@ -33,6 +33,8 @@ type (
 		Source          []string
 		Debug           bool
 		Publish         bool
+		MemorySize      int64
+		Timeout         int64
 	}
 
 	// Plugin values.
@@ -113,9 +115,50 @@ func (p Plugin) Exec() error {
 		input.ZipFile = contents
 	}
 
+	cfg := &lambda.UpdateFunctionConfigurationInput{}
+	cfg.SetFunctionName(p.Config.FunctionName)
+	if p.Config.MemorySize > 0 {
+		cfg.SetMemorySize(p.Config.MemorySize)
+	}
+	if p.Config.Timeout > 0 {
+		cfg.SetTimeout(p.Config.Timeout)
+	}
+
 	svc := lambda.New(sess, config)
 
-	result, err := svc.UpdateFunctionCode(input)
+	// UpdateFunctionConfiguration API operation for AWS Lambda.
+	result, err := svc.UpdateFunctionConfiguration(cfg)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			case lambda.ErrCodeServiceException:
+				log.Println(lambda.ErrCodeServiceException, aerr.Error())
+			case lambda.ErrCodeResourceNotFoundException:
+				log.Println(lambda.ErrCodeResourceNotFoundException, aerr.Error())
+			case lambda.ErrCodeInvalidParameterValueException:
+				log.Println(lambda.ErrCodeInvalidParameterValueException, aerr.Error())
+			case lambda.ErrCodeTooManyRequestsException:
+				log.Println(lambda.ErrCodeTooManyRequestsException, aerr.Error())
+			case lambda.ErrCodeResourceConflictException:
+				log.Println(lambda.ErrCodeResourceConflictException, aerr.Error())
+			case lambda.ErrCodePreconditionFailedException:
+				log.Println(lambda.ErrCodePreconditionFailedException, aerr.Error())
+			default:
+				log.Println(aerr.Error())
+			}
+		} else {
+			// Print the error, cast err to awserr.Error to get the Code and
+			// Message from an error.
+			log.Println(err.Error())
+		}
+		return err
+	}
+
+	if p.Config.Debug {
+		log.Println(result)
+	}
+
+	result, err = svc.UpdateFunctionCode(input)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
