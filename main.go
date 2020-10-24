@@ -126,7 +126,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:   "role",
-			Usage:  "he Amazon Resource Name (ARN) of the function's execution role.",
+			Usage:  "The Amazon Resource Name (ARN) of the function's execution role.",
 			EnvVar: "PLUGIN_ROLE,ROLE,INPUT_ROLE",
 		},
 	}
