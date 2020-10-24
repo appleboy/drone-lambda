@@ -37,6 +37,7 @@ type (
 		Timeout         int64
 		Handler         string
 		Role            string
+		Runtime         string
 	}
 
 	// Plugin values.
@@ -142,6 +143,11 @@ func (p Plugin) Exec() error {
 		isUpdateConfig = true
 		cfg.SetRole(p.Config.Role)
 	}
+	if len(p.Config.Runtime) > 0 {
+		isUpdateConfig = true
+		cfg.SetRuntime(p.Config.Runtime)
+	}
+
 	svc := lambda.New(sess, config)
 
 	if isUpdateConfig {

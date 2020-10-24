@@ -129,6 +129,11 @@ func main() {
 			Usage:  "The Amazon Resource Name (ARN) of the function's execution role.",
 			EnvVar: "PLUGIN_ROLE,ROLE,INPUT_ROLE",
 		},
+		cli.StringFlag{
+			Name:   "runtime",
+			Usage:  "The identifier of the function's runtime.",
+			EnvVar: "PLUGIN_RUNTIME,RUNTIME,INPUT_RUNTIME",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -157,6 +162,7 @@ func run(c *cli.Context) error {
 			MemorySize:      c.Int64("memory-size"),
 			Handler:         c.String("handler"),
 			Role:            c.String("role"),
+			Runtime:         c.String("runtime"),
 		},
 	}
 
