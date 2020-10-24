@@ -124,6 +124,11 @@ func main() {
 			Usage:  "The name of the method within your code that Lambda calls to execute your function.",
 			EnvVar: "PLUGIN_HANDLER,HANDLER,INPUT_HANDLER",
 		},
+		cli.StringFlag{
+			Name:   "role",
+			Usage:  "he Amazon Resource Name (ARN) of the function's execution role.",
+			EnvVar: "PLUGIN_ROLE,ROLE,INPUT_ROLE",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -151,6 +156,7 @@ func run(c *cli.Context) error {
 			Timeout:         c.Int64("timeout"),
 			MemorySize:      c.Int64("memory-size"),
 			Handler:         c.String("handler"),
+			Role:            c.String("role"),
 		},
 	}
 
