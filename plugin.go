@@ -74,6 +74,12 @@ func (p Plugin) Exec() error {
 		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, "")
 	}
 
+	if p.Config.DryRun {
+		p.Config.Publish = false
+	} else {
+		p.Config.Publish = true
+	}
+
 	input := &lambda.UpdateFunctionCodeInput{}
 	input.SetDryRun(p.Config.DryRun)
 	input.SetFunctionName(p.Config.FunctionName)
