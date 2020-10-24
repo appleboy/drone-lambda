@@ -111,7 +111,7 @@ func main() {
 		},
 		cli.Int64Flag{
 			Name:   "memory-size",
-			Usage:  "The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.",
+			Usage:  "The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.",
 			EnvVar: "PLUGIN_MEMORY_SIZE,MEMORY_SIZE,INPUT_MEMORY_SIZE",
 		},
 		cli.Int64Flag{
