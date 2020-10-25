@@ -135,7 +135,7 @@ name: default
 
 steps:
 - name: build
-  image: go:1.15
+  image: golang:1.15
   commands:
   - cd example && GOOS=linux go build -v -a -o main main.go && zip deployment.zip main
 
