@@ -144,11 +144,11 @@ steps:
   image: appleboy/drone-lambda
   settings:
     pull: true
-    aws_access_key_id:
+    access_key:
       from_secret: AWS_ACCESS_KEY_ID
-    aws_secret_access_key:
+    secret_key:
       from_secret: AWS_SECRET_ACCESS_KEY
-    aws_region:
+    region:
       from_secret: AWS_REGION
     function_name: gorush
     zip_file: example/deployment.zip
