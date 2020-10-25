@@ -9,7 +9,7 @@
 [![Release](https://github-release-version.herokuapp.com/github/appleboy/drone-lambda/release.svg?style=flat)](https://github.com/appleboy/drone-lambda/releases/latest)
 [![Build status](https://ci.appveyor.com/api/projects/status/cuioqombam9yufdy?svg=true)](https://ci.appveyor.com/project/appleboy/drone-lambda)
 
-Deploying Lambda code with drone CI to an existing function
+Deploying Lambda code with drone CI to an existing function. The plugin automatically deployes a serverless function to AWS Lambda from a zip file located in an S3 bucket. This plugin does not handle creating or uploading the zip file.
 
 ## Build or Download a binary
 
@@ -59,6 +59,7 @@ There are three ways to send notification.
     - [Usage from binary](#usage-from-binary)
     - [Usage from docker](#usage-from-docker)
     - [Usage from drone ci](#usage-from-drone-ci)
+  - [Deploy with Drone](#deploy-with-drone)
   - [AWS Policy](#aws-policy)
 
 ### Usage from binary
@@ -124,6 +125,30 @@ docker run --rm \
   -v $(pwd):$(pwd) \
   -w $(pwd) \
   appleboy/drone-lambda
+```
+
+## Deploy with Drone
+
+```yaml
+kind: pipeline
+name: default
+
+steps:
+- name: build
+  image: go:1.15
+  commands:
+  - cd example && GOOS=linux go build -v -a -o main main.go && zip deployment.zip main
+
+- name: deploy-lambda
+  image: appleboy/drone-lambda
+  settings:
+    pull: true
+    aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    aws_region: ${{ secrets.AWS_REGION }}
+    function_name: gorush
+    zip_file: example/deployment.zip
+    debug: true
 ```
 
 ## AWS Policy
