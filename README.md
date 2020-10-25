@@ -137,6 +137,7 @@ steps:
 - name: build
   image: golang:1.15
   commands:
+  - apt-get update && apt-get -y install zip
   - cd example && GOOS=linux go build -v -a -o main main.go && zip deployment.zip main
 
 - name: deploy-lambda
