@@ -38,6 +38,7 @@ type (
 		Handler         string
 		Role            string
 		Runtime         string
+		EnvPrefix       string
 	}
 
 	// Plugin values.
@@ -147,6 +148,11 @@ func (p Plugin) Exec() error {
 		isUpdateConfig = true
 		cfg.SetRuntime(p.Config.Runtime)
 	}
+	if len(p.Config.EnvPrefix) > 0 {
+		isUpdateConfig = true
+		envVars := getPrefixVars(p.Config.EnvPrefix, os.Environ())
+		cfg.Environment.SetVariables(envVars)
+	}
 
 	svc := lambda.New(sess, config)
 
@@ -246,4 +252,15 @@ func globList(paths []string) []string {
 	}
 
 	return newPaths
+}
+
+func getPrefixVars(prefix string, Environment []string) (output map[string]*string) {
+
+	for _, e := range Environment {
+		if strings.HasPrefix(e, prefix) {
+			pair := strings.SplitN(e, "=", 2)
+			output[strings.TrimPrefix(pair[0], prefix)] = &pair[2]
+		}
+	}
+	return
 }
