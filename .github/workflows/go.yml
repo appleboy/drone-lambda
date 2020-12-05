@@ -42,7 +42,7 @@ jobs:
     
     - name: Push to artifactory
       run: |
-          jfrog rt c rt-server -url https://ascipack.jfrog.io/artifactory --user "$ART_USER --password "$ART_PASS" --interactive=false
+          jfrog rt c rt-server -url https://ascipack.jfrog.io/artifactory --user "$ART_USER" --password "$ART_PASS" --interactive=false
       env:
         ART_USER: ${{ secrets.USERNAME }}
         ART_PASS: ${{secrets.PASSWORD}}
