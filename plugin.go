@@ -38,6 +38,7 @@ type (
 		Handler         string
 		Role            string
 		Runtime         string
+		EnvPrefix       string
 	}
 
 	// Plugin values.
@@ -147,6 +148,13 @@ func (p Plugin) Exec() error {
 		isUpdateConfig = true
 		cfg.SetRuntime(p.Config.Runtime)
 	}
+	if len(p.Config.EnvPrefix) > 0 {
+		isUpdateConfig = true
+		//All variables are overridden to this new map, non-present key value pairs are removed from the lambda
+		cfg.Environment = &lambda.Environment{
+			Variables: getPrefixVars(p.Config.EnvPrefix, os.Environ()),
+		}
+	}
 
 	svc := lambda.New(sess, config)
 
@@ -246,4 +254,17 @@ func globList(paths []string) []string {
 	}
 
 	return newPaths
+}
+
+//getPrefixVars takes a list of KEY=VALUE strings and turns it into a aws String Map
+func getPrefixVars(prefix string, Environment []string) map[string]*string {
+	output := make(map[string]string)
+	for _, e := range Environment {
+		//check if the prefix is on each environment var, split and store key/values in map
+		if strings.HasPrefix(e, prefix) {
+			pair := strings.SplitN(e, "=", 2)
+			output[strings.TrimPrefix(pair[0], prefix)] = pair[1]
+		}
+	}
+	return aws.StringMap(output)
 }
