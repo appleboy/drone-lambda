@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -151,6 +150,7 @@ func (p Plugin) Exec() error {
 	}
 	if len(p.Config.EnvPrefix) > 0 {
 		isUpdateConfig = true
+		//All variables are overriden to this new map, non-present key value pairs are removed from the lambda
 		cfg.Environment = &lambda.Environment{
 			Variables: getPrefixVars(p.Config.EnvPrefix, os.Environ()),
 		}
@@ -256,11 +256,12 @@ func globList(paths []string) []string {
 	return newPaths
 }
 
+//getPrefixVars takes a list of KEY=VALUE strings and turns it into a aws String Map
 func getPrefixVars(prefix string, Environment []string) map[string]*string {
 	output := make(map[string]string)
 	for _, e := range Environment {
+		//check if the prefix is on each environment var, split and store key/values in map
 		if strings.HasPrefix(e, prefix) {
-			fmt.Println(e)
 			pair := strings.SplitN(e, "=", 2)
 			output[strings.TrimPrefix(pair[0], prefix)] = pair[1]
 		}
