@@ -18,9 +18,6 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: ^1.13
-    
-    - name: Setup JFrog CLI
-      uses: jfrog/setup-jfrog-cli@v1.1.0
 
     
     - name: Check out code into the Go module directory
@@ -47,4 +44,4 @@ jobs:
 
     - name: 
       run: |
-        jfrog rt gp deployLambda --server-id rt-server
+        jfrog rt gp deployLambda 1.0.0 --server-id rt-server
