@@ -12,11 +12,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-
-    - name: Setup Variables
-      env:
-        ART_USER: ${{ secrets.USERNAME }}
-        ART_PASS: ${{secrets.PASSWORD}}
+      
     
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
@@ -46,4 +42,7 @@ jobs:
     
     - name: Push to artifactory
       run: |
-        jfrog rt c rt-server -url https://ascipack.jfrog.io/artifactory --user "$ART_USER --password "$ART_PASS" --interactive=false
+          jfrog rt c rt-server -url https://ascipack.jfrog.io/artifactory --user "$ART_USER --password "$ART_PASS" --interactive=false
+      env:
+        ART_USER: ${{ secrets.USERNAME }}
+        ART_PASS: ${{secrets.PASSWORD}}
