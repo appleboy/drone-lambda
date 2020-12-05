@@ -41,12 +41,10 @@ jobs:
       run: go test -v ./...
     
     - name: Setup Artifactory
-      run: 
-          jfrog rt c rt-server -url https://ascipack.jfrog.io/artifactory --user "$ART_USER" --password "$ART_PASS" --interactive=false
+      uses: jfrog/setup-jfrog@v1
       env:
-        ART_USER: ${{ secrets.USERNAME }}
-        ART_PASS: ${{secrets.PASSWORD}}
-    
-    - name:
-      run:
-        jfrog rt gp deployLambda 1.0.0 --server-id rt-server
+        JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }} 
+
+    - name: 
+      run: |
+        jfrog rt gp deployLambda --server-id rt-server
