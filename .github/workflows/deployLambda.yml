@@ -44,4 +44,4 @@ jobs:
 
     - name: 
       run: |
-        jfrog rt gp deployLambda 1.0.0 --server-id rt-server
+        jfrog rt gp deployLambda v1.0.0 --server-id rt-server
