@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -150,8 +151,9 @@ func (p Plugin) Exec() error {
 	}
 	if len(p.Config.EnvPrefix) > 0 {
 		isUpdateConfig = true
-		envVars := getPrefixVars(p.Config.EnvPrefix, os.Environ())
-		cfg.Environment.SetVariables(envVars)
+		cfg.Environment = &lambda.Environment{
+			Variables: getPrefixVars(p.Config.EnvPrefix, os.Environ()),
+		}
 	}
 
 	svc := lambda.New(sess, config)
@@ -254,13 +256,14 @@ func globList(paths []string) []string {
 	return newPaths
 }
 
-func getPrefixVars(prefix string, Environment []string) (output map[string]*string) {
-
+func getPrefixVars(prefix string, Environment []string) map[string]*string {
+	output := make(map[string]string)
 	for _, e := range Environment {
 		if strings.HasPrefix(e, prefix) {
+			fmt.Println(e)
 			pair := strings.SplitN(e, "=", 2)
-			output[strings.TrimPrefix(pair[0], prefix)] = &pair[2]
+			output[strings.TrimPrefix(pair[0], prefix)] = pair[1]
 		}
 	}
-	return
+	return aws.StringMap(output)
 }
