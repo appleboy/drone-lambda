@@ -40,14 +40,12 @@ func main() {
 			Value:  "us-east-1",
 		},
 		cli.StringFlag{
-			Name:   "access-key",
-			Usage:  "AWS ACCESS KEY",
-			EnvVar: "PLUGIN_ACCESS_KEY,PLUGIN_AWS_ACCESS_KEY_ID,AWS_ACCESS_KEY_ID,INPUT_AWS_ACCESS_KEY_ID",
+			Name:  "access-key",
+			Usage: "AWS ACCESS KEY",
 		},
 		cli.StringFlag{
-			Name:   "secret-key",
-			Usage:  "AWS SECRET KEY",
-			EnvVar: "PLUGIN_SECRET_KEY,PLUGIN_AWS_SECRET_ACCESS_KEY,AWS_SECRET_ACCESS_KEY,INPUT_AWS_SECRET_ACCESS_KEY",
+			Name:  "secret-key",
+			Usage: "AWS SECRET KEY",
 		},
 		cli.StringFlag{
 			Name:   "session-token",
@@ -134,6 +132,10 @@ func main() {
 			Usage:  "The identifier of the function's runtime.",
 			EnvVar: "PLUGIN_RUNTIME,RUNTIME,INPUT_RUNTIME",
 		},
+		cli.StringFlag{
+			Name:  "update-conf",
+			Usage: "Update Lambda Environment variables with prefixed ENV VARS",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -163,6 +165,7 @@ func run(c *cli.Context) error {
 			Handler:         c.String("handler"),
 			Role:            c.String("role"),
 			Runtime:         c.String("runtime"),
+			EnvPrefix:       c.String("update-conf"),
 		},
 	}
 
