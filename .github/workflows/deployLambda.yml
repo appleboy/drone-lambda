@@ -40,8 +40,8 @@ jobs:
     - name: Test
       run: go test -v ./...
     
-    - name: Setup Artifactory
-      uses: jfrog/setup-jfrog@v1.1.0
+    - name: Setup JFrog CLI
+      uses: jfrog/setup-jfrog-cli@v1.1.0
       env:
         JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }} 
 
