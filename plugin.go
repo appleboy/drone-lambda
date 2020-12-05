@@ -150,7 +150,7 @@ func (p Plugin) Exec() error {
 	}
 	if len(p.Config.EnvPrefix) > 0 {
 		isUpdateConfig = true
-		//All variables are overriden to this new map, non-present key value pairs are removed from the lambda
+		//All variables are overridden to this new map, non-present key value pairs are removed from the lambda
 		cfg.Environment = &lambda.Environment{
 			Variables: getPrefixVars(p.Config.EnvPrefix, os.Environ()),
 		}
