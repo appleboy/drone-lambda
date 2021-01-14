@@ -115,7 +115,6 @@ func (p Plugin) Exec() error {
 
 	if p.Config.ZipFile != "" {
 		contents, err := ioutil.ReadFile(p.Config.ZipFile)
-
 		if err != nil {
 			log.Println("Could not read " + p.Config.ZipFile)
 			return err
