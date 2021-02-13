@@ -38,13 +38,44 @@ type (
 		Handler         string
 		Role            string
 		Runtime         string
+		Environment     []string
+	}
+
+	// Commit information.
+	Commit struct {
+		Sha    string
+		Author string
 	}
 
 	// Plugin values.
 	Plugin struct {
 		Config Config
+		Commit Commit
 	}
 )
+
+func getEnvironment(Environment []string) map[string]string {
+	output := make(map[string]string)
+	for _, e := range Environment {
+		pair := strings.SplitN(e, "=", 2)
+		output[pair[0]] = pair[1]
+	}
+	return output
+}
+
+func (p Plugin) loadEnvironment() (*lambda.Environment, error) {
+	m := aws.StringMap(getEnvironment(p.Config.Environment))
+	if p.Commit.Sha != "" {
+		m["DRONE_COMMIT"] = &p.Commit.Sha
+	}
+	if p.Commit.Author != "" {
+		m["DRONE_AUTHOR"] = &p.Commit.Author
+	}
+
+	return &lambda.Environment{
+		Variables: m,
+	}, nil
+}
 
 // Exec executes the plugin.
 func (p Plugin) Exec() error {
@@ -146,6 +177,14 @@ func (p Plugin) Exec() error {
 		isUpdateConfig = true
 		cfg.SetRuntime(p.Config.Runtime)
 	}
+
+	// load environment
+	env, err := p.loadEnvironment()
+	if err != nil {
+		return err
+	}
+	isUpdateConfig = true
+	cfg.SetEnvironment(env)
 
 	svc := lambda.New(sess, config)
 
