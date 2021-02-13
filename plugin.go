@@ -58,6 +58,9 @@ func getEnvironment(Environment []string) map[string]string {
 	output := make(map[string]string)
 	for _, e := range Environment {
 		pair := strings.SplitN(e, "=", 2)
+		if len(pair) != 2 {
+			continue
+		}
 		output[pair[0]] = pair[1]
 	}
 	return output
