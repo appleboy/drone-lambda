@@ -149,6 +149,11 @@ func main() {
 			Usage:  "git author name",
 			EnvVar: "DRONE_COMMIT_AUTHOR",
 		},
+		cli.StringFlag{
+			Name:   "image-uri",
+			Usage:  "URI of a container image in the Amazon ECR registry.",
+			EnvVar: "PLUGIN_IMAGEURI,IMAGEURI,INPUT_IMAGEURI",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -179,6 +184,7 @@ func run(c *cli.Context) error {
 			Role:            c.String("role"),
 			Runtime:         c.String("runtime"),
 			Environment:     c.StringSlice("environment"),
+			ImageURI:        c.String("image-uri"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),

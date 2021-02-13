@@ -39,6 +39,7 @@ type (
 		Role            string
 		Runtime         string
 		Environment     []string
+		ImageURI        string
 	}
 
 	// Commit information.
@@ -121,6 +122,10 @@ func (p Plugin) Exec() error {
 	input.SetFunctionName(p.Config.FunctionName)
 	input.SetPublish(p.Config.Publish)
 
+	if p.Config.ImageURI != "" {
+		input.SetImageUri(p.Config.ImageURI)
+	}
+
 	if p.Config.ReversionID != "" {
 		input.SetRevisionId(p.Config.ReversionID)
 	}
@@ -140,7 +145,7 @@ func (p Plugin) Exec() error {
 		zip := archiver.NewZip()
 		if len(files) != 0 {
 			if err := zip.Archive(files, path); err != nil {
-				log.Fatalf("can't create zip file: %s", err.Error())
+				return err
 			}
 
 			p.Config.ZipFile = path
@@ -150,11 +155,10 @@ func (p Plugin) Exec() error {
 	if p.Config.ZipFile != "" {
 		contents, err := ioutil.ReadFile(p.Config.ZipFile)
 		if err != nil {
-			log.Println("Could not read " + p.Config.ZipFile)
 			return err
 		}
 
-		input.ZipFile = contents
+		input.SetZipFile(contents)
 	}
 
 	isUpdateConfig := false
