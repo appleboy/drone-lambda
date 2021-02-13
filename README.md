@@ -27,8 +27,6 @@ go get -u -v github.com/appleboy/drone-lambda
 
 or build the binary with the following command:
 
-or build the binary with the following command:
-
 ```sh
 export GOOS=linux
 export GOARCH=amd64
