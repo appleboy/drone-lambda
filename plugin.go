@@ -181,13 +181,15 @@ func (p Plugin) Exec() error {
 		cfg.SetRuntime(p.Config.Runtime)
 	}
 
-	// load environment
-	env, err := p.loadEnvironment()
-	if err != nil {
-		return err
+	if len(p.Config.Environment) > 0 {
+		// load environment
+		env, err := p.loadEnvironment()
+		if err != nil {
+			return err
+		}
+		isUpdateConfig = true
+		cfg.SetEnvironment(env)
 	}
-	isUpdateConfig = true
-	cfg.SetEnvironment(env)
 
 	svc := lambda.New(sess, config)
 
