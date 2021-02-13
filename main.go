@@ -134,6 +134,21 @@ func main() {
 			Usage:  "The identifier of the function's runtime.",
 			EnvVar: "PLUGIN_RUNTIME,RUNTIME,INPUT_RUNTIME",
 		},
+		cli.StringSliceFlag{
+			Name:   "environment",
+			Usage:  "Lambda Environment variables",
+			EnvVar: "PLUGIN_ENVIRONMENT,ENVIRONMENT,INPUT_ENVIRONMENT",
+		},
+		cli.StringFlag{
+			Name:   "commit.sha",
+			Usage:  "git commit sha",
+			EnvVar: "DRONE_COMMIT_SHA,GITHUB_SHA",
+		},
+		cli.StringFlag{
+			Name:   "commit.author",
+			Usage:  "git author name",
+			EnvVar: "DRONE_COMMIT_AUTHOR",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -163,6 +178,11 @@ func run(c *cli.Context) error {
 			Handler:         c.String("handler"),
 			Role:            c.String("role"),
 			Runtime:         c.String("runtime"),
+			Environment:     c.StringSlice("environment"),
+		},
+		Commit: Commit{
+			Sha:    c.String("commit.sha"),
+			Author: c.String("commit.author"),
 		},
 	}
 
