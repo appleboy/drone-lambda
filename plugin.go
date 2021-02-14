@@ -40,6 +40,8 @@ type (
 		Runtime         string
 		Environment     []string
 		ImageURI        string
+		Subnets         []string
+		SecurityGroups  []string
 	}
 
 	// Commit information.
@@ -193,6 +195,14 @@ func (p Plugin) Exec() error {
 		}
 		isUpdateConfig = true
 		cfg.SetEnvironment(env)
+	}
+
+	if len(p.Config.Subnets) > 0 || len(p.Config.SecurityGroups) > 0 {
+		isUpdateConfig = true
+		cfg.SetVpcConfig(&lambda.VpcConfig{
+			SubnetIds:        aws.StringSlice(p.Config.Subnets),
+			SecurityGroupIds: aws.StringSlice(p.Config.SecurityGroups),
+		})
 	}
 
 	svc := lambda.New(sess, config)

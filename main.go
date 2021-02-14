@@ -154,6 +154,16 @@ func main() {
 			Usage:  "URI of a container image in the Amazon ECR registry.",
 			EnvVar: "PLUGIN_IMAGEURI,IMAGEURI,INPUT_IMAGEURI",
 		},
+		cli.StringSliceFlag{
+			Name:   "subnets",
+			Usage:  "Select the VPC subnets for Lambda to use to set up your VPC configuration.",
+			EnvVar: "PLUGIN_SUBNETS,SUBNETS,INPUT_SUBNETS",
+		},
+		cli.StringSliceFlag{
+			Name:   "securitygroups",
+			Usage:  "Choose the VPC security groups for Lambda to use to set up your VPC configuration.",
+			EnvVar: "PLUGIN_SECURITY_GROUPS,SECURITY_GROUPS,INPUT_SECURITY_GROUPS",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -185,6 +195,8 @@ func run(c *cli.Context) error {
 			Runtime:         c.String("runtime"),
 			Environment:     c.StringSlice("environment"),
 			ImageURI:        c.String("image-uri"),
+			Subnets:         c.StringSlice("subnets"),
+			SecurityGroups:  c.StringSlice("securitygroups"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),
