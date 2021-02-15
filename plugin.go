@@ -69,8 +69,8 @@ func getEnvironment(Environment []string) map[string]string {
 	return output
 }
 
-func (p Plugin) loadEnvironment() (*lambda.Environment, error) {
-	m := aws.StringMap(getEnvironment(p.Config.Environment))
+func (p Plugin) loadEnvironment(envs []string) (*lambda.Environment, error) {
+	m := aws.StringMap(getEnvironment(envs))
 	if p.Commit.Sha != "" {
 		m["DRONE_COMMIT"] = &p.Commit.Sha
 	}
@@ -142,7 +142,7 @@ func (p Plugin) Exec() error {
 	}
 
 	if len(p.Config.Source) != 0 {
-		files := globList(trimPath(p.Config.Source))
+		files := globList(trimValues(p.Config.Source))
 		path := os.TempDir() + "/output.zip"
 		zip := archiver.NewZip()
 		if len(files) != 0 {
@@ -187,9 +187,10 @@ func (p Plugin) Exec() error {
 		cfg.SetRuntime(p.Config.Runtime)
 	}
 
-	if len(p.Config.Environment) > 0 {
+	envs := trimValues(p.Config.Environment)
+	if len(envs) > 0 {
 		// load environment
-		env, err := p.loadEnvironment()
+		env, err := p.loadEnvironment(envs)
 		if err != nil {
 			return err
 		}
@@ -197,11 +198,13 @@ func (p Plugin) Exec() error {
 		cfg.SetEnvironment(env)
 	}
 
-	if len(p.Config.Subnets) > 0 || len(p.Config.SecurityGroups) > 0 {
+	subnets := trimValues(p.Config.Subnets)
+	securityGroups := trimValues(p.Config.SecurityGroups)
+	if len(subnets) > 0 || len(securityGroups) > 0 {
 		isUpdateConfig = true
 		cfg.SetVpcConfig(&lambda.VpcConfig{
-			SubnetIds:        aws.StringSlice(p.Config.Subnets),
-			SecurityGroupIds: aws.StringSlice(p.Config.SecurityGroups),
+			SubnetIds:        aws.StringSlice(subnets),
+			SecurityGroupIds: aws.StringSlice(securityGroups),
 		})
 	}
 
@@ -273,7 +276,7 @@ func (p Plugin) Exec() error {
 	return nil
 }
 
-func trimPath(keys []string) []string {
+func trimValues(keys []string) []string {
 	var newKeys []string
 
 	for _, value := range keys {
