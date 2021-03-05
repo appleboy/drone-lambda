@@ -14,3 +14,4 @@
 .glide/
 
 drone-lambda
+coverage.txt

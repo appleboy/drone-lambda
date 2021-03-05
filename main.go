@@ -152,7 +152,7 @@ func main() {
 		cli.StringFlag{
 			Name:   "image-uri",
 			Usage:  "URI of a container image in the Amazon ECR registry.",
-			EnvVar: "PLUGIN_IMAGEURI,IMAGEURI,INPUT_IMAGEURI",
+			EnvVar: "PLUGIN_IMAGE_URI,IMAGE_URI,INPUT_IMAGE_URI",
 		},
 		cli.StringSliceFlag{
 			Name:   "subnets",
