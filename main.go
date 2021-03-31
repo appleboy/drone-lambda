@@ -164,6 +164,11 @@ func main() {
 			Usage:  "Choose the VPC security groups for Lambda to use to set up your VPC configuration.",
 			EnvVar: "PLUGIN_SECURITY_GROUPS,SECURITY_GROUPS,INPUT_SECURITY_GROUPS",
 		},
+		cli.StringFlag{
+			Name:   "description",
+			Usage:  "A description of the function.",
+			EnvVar: "PLUGIN_DESCRIPTION,DESCRIPTION,INPUT_DESCRIPTION",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -197,6 +202,7 @@ func run(c *cli.Context) error {
 			ImageURI:        c.String("image-uri"),
 			Subnets:         c.StringSlice("subnets"),
 			SecurityGroups:  c.StringSlice("securitygroups"),
+			Description:     c.String("description"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),

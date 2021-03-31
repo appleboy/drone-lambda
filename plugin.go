@@ -42,6 +42,7 @@ type (
 		ImageURI        string
 		Subnets         []string
 		SecurityGroups  []string
+		Description     string
 	}
 
 	// Commit information.
@@ -185,6 +186,9 @@ func (p Plugin) Exec() error {
 	if len(p.Config.Runtime) > 0 {
 		isUpdateConfig = true
 		cfg.SetRuntime(p.Config.Runtime)
+	}
+	if p.Config.Description != "" {
+		cfg.SetDescription(p.Config.Description)
 	}
 
 	envs := trimValues(p.Config.Environment)
