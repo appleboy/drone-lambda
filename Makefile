@@ -1,6 +1,6 @@
 DIST := dist
 EXECUTABLE := drone-lambda
-GOFMT ?= gofumpt -l -s
+GOFMT ?= gofumpt -l -s -extra
 GO ?= go
 
 # for dockerhub
