@@ -188,6 +188,7 @@ func (p Plugin) Exec() error {
 		cfg.SetRuntime(p.Config.Runtime)
 	}
 	if p.Config.Description != "" {
+		isUpdateConfig = true
 		cfg.SetDescription(p.Config.Description)
 	}
 
