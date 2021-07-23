@@ -43,6 +43,7 @@ type (
 		Subnets         []string
 		SecurityGroups  []string
 		Description     string
+		Layers          []string
 	}
 
 	// Commit information.
@@ -190,6 +191,14 @@ func (p Plugin) Exec() error {
 	if p.Config.Description != "" {
 		isUpdateConfig = true
 		cfg.SetDescription(p.Config.Description)
+	}
+	if len(p.Config.Layers) > 0 {
+		isUpdateConfig = true
+		var layers []*string
+		for _, v := range p.Config.Layers {
+			layers = append(layers, aws.String(v))
+		}
+		cfg.SetLayers(layers)
 	}
 
 	envs := trimValues(p.Config.Environment)

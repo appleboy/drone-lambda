@@ -139,6 +139,11 @@ func main() {
 			Usage:  "Lambda Environment variables",
 			EnvVar: "PLUGIN_ENVIRONMENT,ENVIRONMENT,INPUT_ENVIRONMENT",
 		},
+		cli.StringSliceFlag{
+			Name:   "layers",
+			Usage:  "A list of function layers",
+			EnvVar: "PLUGIN_LAYERS,LAYERS,INPUT_LAYERS",
+		},
 		cli.StringFlag{
 			Name:   "commit.sha",
 			Usage:  "git commit sha",
@@ -199,6 +204,7 @@ func run(c *cli.Context) error {
 			Role:            c.String("role"),
 			Runtime:         c.String("runtime"),
 			Environment:     c.StringSlice("environment"),
+			Layers:          c.StringSlice("layers"),
 			ImageURI:        c.String("image-uri"),
 			Subnets:         c.StringSlice("subnets"),
 			SecurityGroups:  c.StringSlice("securitygroups"),
