@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
+	"time"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -256,6 +256,26 @@ func (p Plugin) Exec() error {
 		if p.Config.Debug {
 			log.Println(result)
 		}
+
+		for {
+			getCfg := &lambda.GetFunctionConfigurationInput{}
+			getCfg.SetFunctionName(p.Config.FunctionName)
+
+			result, err := svc.GetFunctionConfiguration(getCfg)
+			if err != nil {
+				return err
+			}
+			if *result.State == "Pending" {
+				time.Sleep(1 * time.Second)
+			} else {
+				break;
+			}
+		}
+
+		if p.Config.Debug {
+			log.Println(result)
+		}
+		
 	}
 
 	result, err := svc.UpdateFunctionCode(input)
