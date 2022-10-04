@@ -95,7 +95,8 @@ func (p Plugin) Exec() error {
 	if p.Config.S3Bucket == "" &&
 		p.Config.S3Key == "" &&
 		len(p.Config.Source) == 0 &&
-		p.Config.ZipFile == "" {
+		p.Config.ZipFile == "" &&
+		p.Config.ImageURI == "" {
 		return errors.New("missing zip source")
 	}
 

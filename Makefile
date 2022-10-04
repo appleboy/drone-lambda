@@ -1,10 +1,10 @@
 DIST := dist
-EXECUTABLE := drone-lambda
+EXECUTABLE := deploy-lambda
 GOFMT ?= gofumpt -l -s -extra
 GO ?= go
 
 # for dockerhub
-DEPLOY_ACCOUNT := appleboy
+DEPLOY_ACCOUNT := srndpty
 DEPLOY_IMAGE := $(EXECUTABLE)
 
 TARGETS ?= linux darwin windows
