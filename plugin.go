@@ -22,6 +22,7 @@ type (
 		Region          string
 		AccessKey       string
 		SecretKey       string
+		SessionToken    string
 		Profile         string
 		FunctionName    string
 		ReversionID     string
@@ -112,7 +113,7 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.AccessKey != "" && p.Config.SecretKey != "" {
-		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, "")
+		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, p.Config.SessionToken)
 	}
 
 	if p.Config.DryRun {

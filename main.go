@@ -187,6 +187,7 @@ func run(c *cli.Context) error {
 			Region:          c.String("region"),
 			AccessKey:       c.String("access-key"),
 			SecretKey:       c.String("secret-key"),
+			SessionToken:    c.String("session-token"),			
 			Profile:         c.String("aws-profile"),
 			S3Bucket:        c.String("s3-bucket"),
 			S3Key:           c.String("s3-key"),
