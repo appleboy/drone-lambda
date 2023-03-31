@@ -174,11 +174,6 @@ func main() {
 			Usage:  "A description of the function.",
 			EnvVar: "PLUGIN_DESCRIPTION,DESCRIPTION,INPUT_DESCRIPTION",
 		},
-		cli.StringFlag{
-			Name:   "session-token",
-			Usage:  "session token for static credentials",
-			EnvVar: "PLUGIN_SESSION_TOKEN,SESSION_TOKEN,INPUT_SESSION_TOKEN",
-		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
