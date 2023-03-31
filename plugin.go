@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -158,7 +157,7 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.ZipFile != "" {
-		contents, err := ioutil.ReadFile(p.Config.ZipFile)
+		contents, err := os.ReadFile(p.Config.ZipFile)
 		if err != nil {
 			return err
 		}
