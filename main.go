@@ -174,6 +174,11 @@ func main() {
 			Usage:  "A description of the function.",
 			EnvVar: "PLUGIN_DESCRIPTION,DESCRIPTION,INPUT_DESCRIPTION",
 		},
+		cli.StringFlag{
+			Name:   "session-token",
+			Usage:  "session token for static credentials",
+			EnvVar: "PLUGIN_SESSION_TOKEN,SESSION_TOKEN,INPUT_SESSION_TOKEN",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -209,6 +214,7 @@ func run(c *cli.Context) error {
 			Subnets:         c.StringSlice("subnets"),
 			SecurityGroups:  c.StringSlice("securitygroups"),
 			Description:     c.String("description"),
+			SessionToken:    c.String("session-token"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),
