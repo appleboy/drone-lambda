@@ -44,6 +44,7 @@ type (
 		SecurityGroups  []string
 		Description     string
 		Layers          []string
+		SessionToken    string
 	}
 
 	// Commit information.
@@ -112,7 +113,7 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.AccessKey != "" && p.Config.SecretKey != "" {
-		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, "")
+		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, p.Config.SessionToken)
 	}
 
 	if p.Config.DryRun {
