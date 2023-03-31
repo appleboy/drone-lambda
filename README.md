@@ -46,16 +46,6 @@ make docker
 
 There are three ways to send notification.
 
-- [drone-lambda](#drone-lambda)
-  - [Build or Download a binary](#build-or-download-a-binary)
-  - [Docker](#docker)
-  - [Usage](#usage)
-    - [Usage from binary](#usage-from-binary)
-    - [Usage from docker](#usage-from-docker)
-    - [Usage from drone ci](#usage-from-drone-ci)
-  - [Deploy with Drone](#deploy-with-drone)
-  - [AWS Policy](#aws-policy)
-
 ### Usage from binary
 
 Update lambda function from zip file.
