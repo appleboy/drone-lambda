@@ -146,8 +146,9 @@ func (p Plugin) Exec() error {
 		}
 	}
 
-	if len(p.Config.Source) != 0 {
-		files := globList(trimValues(p.Config.Source))
+	sources := trimValues(p.Config.Source)
+	if len(sources) != 0 {
+		files := globList(sources)
 		path := os.TempDir() + "/output.zip"
 		zip := archiver.NewZip()
 		if len(files) != 0 {
@@ -198,7 +199,7 @@ func (p Plugin) Exec() error {
 	if len(p.Config.Layers) > 0 {
 		isUpdateConfig = true
 		var layers []*string
-		for _, v := range p.Config.Layers {
+		for _, v := range trimValues(p.Config.Layers) {
 			layers = append(layers, aws.String(v))
 		}
 		cfg.SetLayers(layers)
@@ -304,7 +305,7 @@ func trimValues(keys []string) []string {
 	var newKeys []string
 
 	for _, value := range keys {
-		value = strings.Trim(value, " ")
+		value = strings.TrimSpace(value)
 		if len(value) == 0 {
 			continue
 		}
