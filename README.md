@@ -141,7 +141,7 @@ steps:
 
 ## AWS Policy
 
-Add the following AWS policy if you want to integrate with CI/CD tools like Jenkins, GitLab Ci or Drone.
+Add the following AWS policy if you want to integrate with CI/CD tools like Jenkins, GitLab Ci or Drone. Your function needs permission to upload trace data to [X-Ray](https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html). When you activate tracing in the Lambda console, Lambda adds the required permissions to your function's execution role. Otherwise, add the [AWSXRayDaemonWriteAccess](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess) policy to the execution role.
 
 ```json
 {
@@ -156,6 +156,19 @@ Add the following AWS policy if you want to integrate with CI/CD tools like Jenk
         "lambda:CreateFunction"
       ],
       "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords",
+        "xray:GetSamplingRules",
+        "xray:GetSamplingTargets",
+        "xray:GetSamplingStatisticSummaries"
+      ],
+      "Resource": [
+        "*"
+      ]
     }
   ]
 }
