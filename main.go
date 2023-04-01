@@ -108,7 +108,6 @@ func main() {
 			Name:    "publish",
 			Usage:   "Set to true to publish a new version of the function after updating the code.",
 			EnvVars: []string{"PLUGIN_PUBLISH", "PUBLISH", "INPUT_PUBLISH"},
-			Value:   true,
 		},
 		&cli.Int64Flag{
 			Name:    "memory-size",

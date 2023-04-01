@@ -12,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
+	"github.com/gookit/goutil/dump"
 	"github.com/mholt/archiver/v3"
 )
 
@@ -79,6 +80,8 @@ func (p Plugin) loadEnvironment(envs []string) *lambda.Environment {
 
 // Exec executes the plugin.
 func (p Plugin) Exec() error {
+	p.dump(p.Config)
+
 	if p.Config.FunctionName == "" {
 		return errors.New("missing lambda function name")
 	}
@@ -248,9 +251,7 @@ func (p Plugin) Exec() error {
 			return err
 		}
 
-		if p.Config.Debug {
-			log.Println(result)
-		}
+		p.dump(result)
 	}
 
 	result, err := svc.UpdateFunctionCode(input)
@@ -278,11 +279,17 @@ func (p Plugin) Exec() error {
 		return err
 	}
 
-	if p.Config.Debug {
-		log.Println(result)
-	}
+	p.dump(result)
 
 	return nil
+}
+
+func (p *Plugin) dump(val ...any) {
+	if !p.Config.Debug {
+		return
+	}
+
+	dump.P(val)
 }
 
 func trimValues(keys []string) []string {
