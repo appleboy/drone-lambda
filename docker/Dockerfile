@@ -8,6 +8,10 @@ LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>" \
   org.label-schema.vendor="Bo-Yi Wu" \
   org.label-schema.schema-version="1.0"
 
+LABEL org.opencontainers.image.source=https://github.com/appleboy/drone-lambda
+LABEL org.opencontainers.image.description="Deploying Lambda code with drone CI to an existing function."
+LABEL org.opencontainers.image.licenses=MIT
+
 RUN apk add --no-cache ca-certificates && \
   rm -rf /var/cache/apk/*
 
