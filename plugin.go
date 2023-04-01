@@ -45,6 +45,7 @@ type (
 		Description     string
 		Layers          []string
 		SessionToken    string
+		TracingMode     string
 	}
 
 	// Commit information.
@@ -210,6 +211,13 @@ func (p Plugin) Exec() error {
 		cfg.SetVpcConfig(&lambda.VpcConfig{
 			SubnetIds:        aws.StringSlice(subnets),
 			SecurityGroupIds: aws.StringSlice(securityGroups),
+		})
+	}
+
+	if p.Config.TracingMode != "" {
+		isUpdateConfig = true
+		cfg.SetTracingConfig(&lambda.TracingConfig{
+			Mode: aws.String(p.Config.TracingMode),
 		})
 	}
 
