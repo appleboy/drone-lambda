@@ -174,6 +174,11 @@ func main() {
 			Usage:   "A description of the function.",
 			EnvVars: []string{"PLUGIN_DESCRIPTION", "DESCRIPTION", "INPUT_DESCRIPTION"},
 		},
+		&cli.StringFlag{
+			Name:    "tracing-mode",
+			Usage:   "The function's X-Ray tracing configuration.",
+			EnvVars: []string{"PLUGIN_TRACING_MODE", "TRACING_MODE", "INPUT_TRACING_MODE"},
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -210,6 +215,7 @@ func run(c *cli.Context) error {
 			SecurityGroups:  c.StringSlice("securitygroups"),
 			Description:     c.String("description"),
 			SessionToken:    c.String("session-token"),
+			TracingMode:     c.String("tracing-mode"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),
