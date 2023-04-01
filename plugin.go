@@ -228,13 +228,12 @@ func (p Plugin) Exec() error {
 	svc := lambda.New(sess, config)
 
 	if isUpdateConfig {
-
-		// if err := svc.WaitUntilFunctionActive(&lambda.GetFunctionConfigurationInput{
-		// 	FunctionName: aws.String(p.Config.FunctionName),
-		// }); err != nil {
-		// 	log.Println(err.Error())
-		// 	return err
-		// }
+		if err := svc.WaitUntilFunctionUpdated(&lambda.GetFunctionConfigurationInput{
+			FunctionName: aws.String(p.Config.FunctionName),
+		}); err != nil {
+			log.Println(err.Error())
+			return err
+		}
 
 		// UpdateFunctionConfiguration API operation for AWS Lambda.
 		result, err := svc.UpdateFunctionConfiguration(cfg)
