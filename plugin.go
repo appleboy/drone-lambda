@@ -71,18 +71,10 @@ func getEnvironment(Environment []string) map[string]string {
 	return output
 }
 
-func (p Plugin) loadEnvironment(envs []string) (*lambda.Environment, error) {
-	m := aws.StringMap(getEnvironment(envs))
-	if p.Commit.Sha != "" {
-		m["DRONE_COMMIT"] = &p.Commit.Sha
-	}
-	if p.Commit.Author != "" {
-		m["DRONE_AUTHOR"] = &p.Commit.Author
-	}
-
+func (p Plugin) loadEnvironment(envs []string) *lambda.Environment {
 	return &lambda.Environment{
-		Variables: m,
-	}, nil
+		Variables: aws.StringMap(getEnvironment(envs)),
+	}
 }
 
 // Exec executes the plugin.
@@ -204,13 +196,8 @@ func (p Plugin) Exec() error {
 
 	envs := trimValues(p.Config.Environment)
 	if len(envs) > 0 {
-		// load environment
-		env, err := p.loadEnvironment(envs)
-		if err != nil {
-			return err
-		}
 		isUpdateConfig = true
-		cfg.SetEnvironment(env)
+		cfg.SetEnvironment(p.loadEnvironment(envs))
 	}
 
 	subnets := trimValues(p.Config.Subnets)
