@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -121,6 +122,8 @@ func (p Plugin) Exec() error {
 		p.Config.Publish = true
 	}
 
+	fmt.Printf("%#v\n", p.Config)
+
 	input := &lambda.UpdateFunctionCodeInput{}
 	input.SetDryRun(p.Config.DryRun)
 	input.SetFunctionName(p.Config.FunctionName)
@@ -225,6 +228,14 @@ func (p Plugin) Exec() error {
 	svc := lambda.New(sess, config)
 
 	if isUpdateConfig {
+
+		// if err := svc.WaitUntilFunctionActive(&lambda.GetFunctionConfigurationInput{
+		// 	FunctionName: aws.String(p.Config.FunctionName),
+		// }); err != nil {
+		// 	log.Println(err.Error())
+		// 	return err
+		// }
+
 		// UpdateFunctionConfiguration API operation for AWS Lambda.
 		result, err := svc.UpdateFunctionConfiguration(cfg)
 		if err != nil {
