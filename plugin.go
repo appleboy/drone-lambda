@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -121,8 +120,6 @@ func (p Plugin) Exec() error {
 	} else {
 		p.Config.Publish = true
 	}
-
-	fmt.Printf("%#v\n", p.Config)
 
 	input := &lambda.UpdateFunctionCodeInput{}
 	input.SetDryRun(p.Config.DryRun)
