@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/gookit/goutil/dump"
@@ -46,6 +47,7 @@ type (
 		Layers          []string
 		SessionToken    string
 		TracingMode     string
+		MaxAttempts     int
 	}
 
 	// Commit information.
@@ -224,9 +226,13 @@ func (p Plugin) Exec() error {
 	svc := lambda.New(sess, config)
 
 	if isUpdateConfig {
-		if err := svc.WaitUntilFunctionUpdated(&lambda.GetFunctionConfigurationInput{
-			FunctionName: aws.String(p.Config.FunctionName),
-		}); err != nil {
+		if err := svc.WaitUntilFunctionUpdatedWithContext(
+			aws.BackgroundContext(),
+			&lambda.GetFunctionConfigurationInput{
+				FunctionName: aws.String(p.Config.FunctionName),
+			},
+			request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
+		); err != nil {
 			log.Println(err.Error())
 			return err
 		}

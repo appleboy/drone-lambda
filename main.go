@@ -179,6 +179,12 @@ func main() {
 			Usage:   "The function's X-Ray tracing configuration.",
 			EnvVars: []string{"PLUGIN_TRACING_MODE", "TRACING_MODE", "INPUT_TRACING_MODE"},
 		},
+		&cli.IntFlag{
+			Name:    "max-attempts",
+			Usage:   "the maximum number of times the waiter should attempt to check the resource for the target state",
+			EnvVars: []string{"PLUGIN_MAX_ATTEMPTS", "MAX_ATTEMPTS", "INPUT_MAX_ATTEMPTS"},
+			Value:   200,
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -216,6 +222,7 @@ func run(c *cli.Context) error {
 			Description:     c.String("description"),
 			SessionToken:    c.String("session-token"),
 			TracingMode:     c.String("tracing-mode"),
+			MaxAttempts:     c.Int("max-attempts"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),
