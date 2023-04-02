@@ -226,9 +226,9 @@ func (p Plugin) Exec() error {
 	svc := lambda.New(sess, config)
 
 	if isUpdateConfig {
-		if err := svc.WaitUntilFunctionUpdatedWithContext(
+		if err := svc.WaitUntilFunctionUpdatedV2WithContext(
 			aws.BackgroundContext(),
-			&lambda.GetFunctionConfigurationInput{
+			&lambda.GetFunctionInput{
 				FunctionName: aws.String(p.Config.FunctionName),
 			},
 			request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
