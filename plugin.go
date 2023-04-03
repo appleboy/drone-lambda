@@ -234,27 +234,38 @@ func (p Plugin) Exec() error {
 		if aws.StringValue(cfg.State) != lambda.StateActive {
 			log.Println("Current State Reason:", aws.StringValue(cfg.StateReason))
 			log.Println("Current State Reason Code:", aws.StringValue(cfg.StateReasonCode))
+			log.Println("Waiting Lambda function states to be active...")
+			if err := svc.WaitUntilFunctionActiveV2WithContext(
+				aws.BackgroundContext(),
+				&lambda.GetFunctionInput{
+					FunctionName: aws.String(p.Config.FunctionName),
+				},
+				request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
+			); err != nil {
+				log.Println(err.Error())
+				return err
+			}
 		}
 
 		log.Println("Last Update Status:", aws.StringValue(cfg.LastUpdateStatus))
 		if aws.StringValue(cfg.LastUpdateStatus) != lambda.LastUpdateStatusSuccessful {
 			log.Println("Last Update Status Reason:", aws.StringValue(cfg.LastUpdateStatusReason))
 			log.Println("Last Update Status ReasonCode:", aws.StringValue(cfg.LastUpdateStatusReasonCode))
+			log.Println("Waiting Last Update Status to be successful ...")
+			if err := svc.WaitUntilFunctionUpdatedV2WithContext(
+				aws.BackgroundContext(),
+				&lambda.GetFunctionInput{
+					FunctionName: aws.String(p.Config.FunctionName),
+				},
+				request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
+			); err != nil {
+				log.Println(err.Error())
+				return err
+			}
 		}
 	}
 
 	if isUpdateConfig {
-		if err := svc.WaitUntilFunctionUpdatedV2WithContext(
-			aws.BackgroundContext(),
-			&lambda.GetFunctionInput{
-				FunctionName: aws.String(p.Config.FunctionName),
-			},
-			request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
-		); err != nil {
-			log.Println(err.Error())
-			return err
-		}
-
 		// UpdateFunctionConfiguration API operation for AWS Lambda.
 		result, err := svc.UpdateFunctionConfiguration(cfg)
 		if err != nil {
