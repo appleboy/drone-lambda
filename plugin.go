@@ -282,6 +282,8 @@ func (p Plugin) Exec() error {
 				log.Println(lambda.ErrCodeCodeStorageExceededException, aerr.Error())
 			case lambda.ErrCodeResourceConflictException:
 				log.Println(lambda.ErrCodeResourceConflictException, aerr.Error())
+			case lambda.ErrCodeResourceNotReadyException:
+				log.Println(lambda.ErrCodeResourceNotReadyException, aerr.Error())
 			default:
 				log.Println(aerr.Error())
 			}
