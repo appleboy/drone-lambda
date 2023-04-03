@@ -267,6 +267,7 @@ func (p Plugin) Exec() error {
 
 	if isUpdateConfig {
 		// UpdateFunctionConfiguration API operation for AWS Lambda.
+		log.Println("Update function configuration ...")
 		result, err := svc.UpdateFunctionConfiguration(cfg)
 		if err != nil {
 			if aerr, ok := err.(awserr.Error); ok {
@@ -297,17 +298,7 @@ func (p Plugin) Exec() error {
 		p.dump(result)
 	}
 
-	if err := svc.WaitUntilFunctionUpdatedV2WithContext(
-		aws.BackgroundContext(),
-		&lambda.GetFunctionInput{
-			FunctionName: aws.String(p.Config.FunctionName),
-		},
-		request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
-	); err != nil {
-		log.Println(err.Error())
-		return err
-	}
-
+	log.Println("Update function code ...")
 	result, err := svc.UpdateFunctionCode(input)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
