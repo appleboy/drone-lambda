@@ -225,6 +225,24 @@ func (p Plugin) Exec() error {
 
 	svc := lambda.New(sess, config)
 
+	// Check Lambda function states
+	// see https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html
+	if cfg, err := svc.GetFunctionConfiguration(&lambda.GetFunctionConfigurationInput{
+		FunctionName: aws.String(p.Config.FunctionName),
+	}); err == nil {
+		log.Println("Current State:", aws.StringValue(cfg.State))
+		if aws.StringValue(cfg.State) != lambda.StateActive {
+			log.Println("Current State Reason:", aws.StringValue(cfg.StateReason))
+			log.Println("Current State Reason Code:", aws.StringValue(cfg.StateReasonCode))
+		}
+
+		log.Println("Last Update Status:", aws.StringValue(cfg.LastUpdateStatus))
+		if aws.StringValue(cfg.LastUpdateStatus) != lambda.LastUpdateStatusSuccessful {
+			log.Println("Last Update Status Reason:", aws.StringValue(cfg.LastUpdateStatusReason))
+			log.Println("Last Update Status ReasonCode:", aws.StringValue(cfg.LastUpdateStatusReasonCode))
+		}
+	}
+
 	if isUpdateConfig {
 		if err := svc.WaitUntilFunctionUpdatedV2WithContext(
 			aws.BackgroundContext(),
@@ -268,6 +286,17 @@ func (p Plugin) Exec() error {
 		p.dump(result)
 	}
 
+	if err := svc.WaitUntilFunctionUpdatedV2WithContext(
+		aws.BackgroundContext(),
+		&lambda.GetFunctionInput{
+			FunctionName: aws.String(p.Config.FunctionName),
+		},
+		request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
+	); err != nil {
+		log.Println(err.Error())
+		return err
+	}
+
 	result, err := svc.UpdateFunctionCode(input)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
@@ -282,6 +311,8 @@ func (p Plugin) Exec() error {
 				log.Println(lambda.ErrCodeTooManyRequestsException, aerr.Error())
 			case lambda.ErrCodeCodeStorageExceededException:
 				log.Println(lambda.ErrCodeCodeStorageExceededException, aerr.Error())
+			case lambda.ErrCodeResourceConflictException:
+				log.Println(lambda.ErrCodeResourceConflictException, aerr.Error())
 			default:
 				log.Println(aerr.Error())
 			}
