@@ -89,9 +89,10 @@ func (p Plugin) Exec() error {
 		return errors.New("missing lambda function name")
 	}
 
+	sources := trimValues(p.Config.Source)
 	if p.Config.S3Bucket == "" &&
 		p.Config.S3Key == "" &&
-		len(p.Config.Source) == 0 &&
+		len(sources) == 0 &&
 		p.Config.ZipFile == "" &&
 		p.Config.ImageURI == "" {
 		return errors.New("missing zip source or s3 bucket/key or image uri")
@@ -142,7 +143,6 @@ func (p Plugin) Exec() error {
 		}
 	}
 
-	sources := trimValues(p.Config.Source)
 	if len(sources) != 0 {
 		files := globList(sources)
 		path := os.TempDir() + "/output.zip"
