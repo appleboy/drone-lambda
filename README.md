@@ -155,7 +155,9 @@ Add the following AWS policy if you want to integrate with CI/CD tools like Jenk
         "s3:PutObject",
         "iam:ListRoles",
         "lambda:UpdateFunctionCode",
-        "lambda:CreateFunction"
+        "lambda:CreateFunction",
+        "lambda:GetFunctionConfiguration",
+        "lambda:UpdateFunctionConfiguration"
       ],
       "Resource": "arn:aws:logs:*:*:*"
     },
