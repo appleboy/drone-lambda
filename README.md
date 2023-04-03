@@ -7,7 +7,7 @@
 
 Deploying Lambda code with drone CI to an existing function. The plugin automatically deployes a serverless function to AWS Lambda from a zip file located in an S3 bucket. This plugin does not handle creating or uploading the zip file.
 
-![cover](./infra/infra.svg)
+![cover](./images/infra.svg)
 
 ## Build or Download a binary
 
