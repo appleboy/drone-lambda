@@ -92,8 +92,9 @@ func (p Plugin) Exec() error {
 	if p.Config.S3Bucket == "" &&
 		p.Config.S3Key == "" &&
 		len(p.Config.Source) == 0 &&
-		p.Config.ZipFile == "" {
-		return errors.New("missing zip source")
+		p.Config.ZipFile == "" &&
+		p.Config.ImageURI == "" {
+		return errors.New("missing zip source or s3 bucket/key or image uri")
 	}
 
 	// Create Lambda service client
