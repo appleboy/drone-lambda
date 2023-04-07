@@ -156,6 +156,7 @@ Add the following AWS policy if you want to integrate with CI/CD tools like Jenk
         "iam:ListRoles",
         "lambda:UpdateFunctionCode",
         "lambda:CreateFunction",
+        "lambda:GetFunction",
         "lambda:GetFunctionConfiguration",
         "lambda:UpdateFunctionConfiguration"
       ],
