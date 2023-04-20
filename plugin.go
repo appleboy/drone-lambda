@@ -313,7 +313,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 	if aws.StringValue(lambdaConfig.State) != lambda.StateActive {
 		log.Println("Current State Reason:", aws.StringValue(lambdaConfig.StateReason))
 		log.Println("Current State Reason Code:", aws.StringValue(lambdaConfig.StateReasonCode))
-		log.Println("Waiting Lambda function states to be active...")
+		log.Println("Waiting for Lambda function states to be active...")
 		if err := svc.WaitUntilFunctionActiveV2WithContext(
 			aws.BackgroundContext(),
 			&lambda.GetFunctionInput{
@@ -330,7 +330,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 	if aws.StringValue(lambdaConfig.LastUpdateStatus) != lambda.LastUpdateStatusSuccessful {
 		log.Println("Last Update Status Reason:", aws.StringValue(lambdaConfig.LastUpdateStatusReason))
 		log.Println("Last Update Status ReasonCode:", aws.StringValue(lambdaConfig.LastUpdateStatusReasonCode))
-		log.Println("Waiting Last Update Status to be successful ...")
+		log.Println("Waiting for Last Update Status to be successful ...")
 		if err := svc.WaitUntilFunctionUpdatedV2WithContext(
 			aws.BackgroundContext(),
 			&lambda.GetFunctionInput{
