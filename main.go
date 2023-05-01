@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
@@ -23,7 +25,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "Drone Lambda"
 	app.Usage = "Deploying Lambda code with drone CI to an existing function"
-	app.Copyright = "Copyright (c) 2020 Bo-Yi Wu"
+	app.Copyright = "Copyright (c) " + strconv.Itoa(time.Now().Year()) + " Bo-Yi Wu"
 	app.Authors = []*cli.Author{
 		{
 			Name:  "Bo-Yi Wu",
