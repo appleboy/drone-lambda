@@ -12,7 +12,7 @@ LABEL org.opencontainers.image.source=https://github.com/appleboy/drone-lambda
 LABEL org.opencontainers.image.description="Deploying Lambda code with drone CI to an existing function."
 LABEL org.opencontainers.image.licenses=MIT
 
-RUN apk add --no-cache ca-certificates && \
+RUN apk add --no-cache ca-certificates=20220614-r4 && \
   rm -rf /var/cache/apk/*
 
 COPY release/${TARGETOS}/${TARGETARCH}/drone-lambda /bin/
