@@ -3,8 +3,8 @@ module github.com/appleboy/drone-lambda
 go 1.19
 
 require (
-	github.com/aws/aws-sdk-go v1.44.295
-	github.com/gookit/goutil v0.6.10
+	github.com/aws/aws-sdk-go v1.44.305
+	github.com/gookit/goutil v0.6.11
 	github.com/joho/godotenv v1.5.1
 	github.com/mholt/archiver/v3 v3.5.1
 	github.com/urfave/cli/v2 v2.25.7
@@ -15,7 +15,7 @@ require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/dsnet/compress v0.0.2-0.20210315054119-f66993602bf5 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/gookit/color v1.5.3 // indirect
+	github.com/gookit/color v1.5.4 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
