@@ -1,5 +1,5 @@
-braces.dev/errtrace v0.2.0 h1:1/XzHNUJ4ZVLhu3FzoQ5eJMa4wlj9LKKm/ABAVx2mbQ=
-braces.dev/errtrace v0.2.0/go.mod h1:YQpXdo+u5iimgQdZzFoic8AjedEDncXGpp6/2SfazzI=
+braces.dev/errtrace v0.3.0 h1:pzfd6LcWgfWtXLaNFWRnxV/7NP+FSOlIjRLwDuHfPxs=
+braces.dev/errtrace v0.3.0/go.mod h1:YQpXdo+u5iimgQdZzFoic8AjedEDncXGpp6/2SfazzI=
 github.com/andybalholm/brotli v1.0.1/go.mod h1:loMXtMfwqflxFJPmdbJO0a3KNoPuLBgiu3qAvBg8x/Y=
 github.com/andybalholm/brotli v1.0.6 h1:Yf9fFpf49Zrxb9NlQaluyE92/+X7UVHlhMNJN2sxfOI=
 github.com/andybalholm/brotli v1.0.6/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
