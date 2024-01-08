@@ -18,8 +18,8 @@ github.com/golang/snappy v0.0.4/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEW
 github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/gookit/color v1.5.4 h1:FZmqs7XOyGgCAxmWyPslpiok1k05wmY3SJTytgvYFs0=
 github.com/gookit/color v1.5.4/go.mod h1:pZJOeOS8DM43rXbp4AZo1n9zCU2qjpcRko0b6/QJi9w=
-github.com/gookit/goutil v0.6.14 h1:96elyOG4BvVoDaiT7vx1vHPrVyEtFfYlPPBODR0/FGQ=
-github.com/gookit/goutil v0.6.14/go.mod h1:YyDBddefmjS+mU2PDPgCcjVzTDM5WgExiDv5ZA/b8I8=
+github.com/gookit/goutil v0.6.15 h1:mMQ0ElojNZoyPD0eVROk5QXJPh2uKR4g06slgPDF5Jo=
+github.com/gookit/goutil v0.6.15/go.mod h1:qdKdYEHQdEtyH+4fNdQNZfJHhI0jUZzHxQVAV3DaMDY=
 github.com/jmespath/go-jmespath v0.4.0 h1:BEgLn5cpjn8UN1mAw4NjwDrS35OdebyEtFe+9YPoQUg=
 github.com/jmespath/go-jmespath v0.4.0/go.mod h1:T8mJZnbsbmF+m6zOOFylbeCJqk5+pHWvzYPziyZiYoo=
 github.com/jmespath/go-jmespath/internal/testify v1.5.1 h1:shLQSRRSCCPj3f2gpwzGwWFoC7ycTf1rcQZHOlsJ6N8=
