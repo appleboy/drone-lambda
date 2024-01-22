@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	braces.dev/errtrace v0.3.0
-	github.com/aws/aws-sdk-go v1.49.14
+	github.com/aws/aws-sdk-go v1.50.0
 	github.com/gookit/goutil v0.6.14
 	github.com/joho/godotenv v1.5.1
 	github.com/mholt/archiver/v3 v3.5.1
