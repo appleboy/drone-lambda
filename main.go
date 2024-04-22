@@ -39,28 +39,27 @@ func main() {
 		&cli.StringFlag{
 			Name:    "region",
 			Usage:   "AWS Region",
-			EnvVars: []string{"PLUGIN_REGION", "PLUGIN_AWS_REGION", "AWS_REGION", "INPUT_AWS_REGION"},
-			Value:   "us-east-1",
+			EnvVars: []string{"PLUGIN_REGION", "PLUGIN_AWS_REGION", "INPUT_AWS_REGION"},
 		},
 		&cli.StringFlag{
 			Name:    "access-key",
 			Usage:   "AWS ACCESS KEY",
-			EnvVars: []string{"PLUGIN_ACCESS_KEY", "PLUGIN_AWS_ACCESS_KEY_ID", "AWS_ACCESS_KEY_ID", "INPUT_AWS_ACCESS_KEY_ID"},
+			EnvVars: []string{"PLUGIN_ACCESS_KEY", "PLUGIN_AWS_ACCESS_KEY_ID", "INPUT_AWS_ACCESS_KEY_ID"},
 		},
 		&cli.StringFlag{
 			Name:    "secret-key",
 			Usage:   "AWS SECRET KEY",
-			EnvVars: []string{"PLUGIN_SECRET_KEY", "PLUGIN_AWS_SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY", "INPUT_AWS_SECRET_ACCESS_KEY"},
+			EnvVars: []string{"PLUGIN_SECRET_KEY", "PLUGIN_AWS_SECRET_ACCESS_KEY", "INPUT_AWS_SECRET_ACCESS_KEY"},
 		},
 		&cli.StringFlag{
 			Name:    "session-token",
 			Usage:   "AWS Session token",
-			EnvVars: []string{"PLUGIN_SESSION_TOKEN", "PLUGIN_AWS_SESSION_TOKEN", "AWS_SESSION_TOKEN", "INPUT_AWS_SESSION_TOKEN"},
+			EnvVars: []string{"PLUGIN_SESSION_TOKEN", "PLUGIN_AWS_SESSION_TOKEN", "INPUT_AWS_SESSION_TOKEN"},
 		},
 		&cli.StringFlag{
 			Name:    "aws-profile",
 			Usage:   "AWS profile",
-			EnvVars: []string{"PLUGIN_PROFILE", "PLUGIN_AWS_PROFILE", "AWS_PROFILE", "INPUT_AWS_PROFILE"},
+			EnvVars: []string{"PLUGIN_PROFILE", "PLUGIN_AWS_PROFILE", "INPUT_AWS_PROFILE"},
 		},
 		&cli.StringFlag{
 			Name:    "function-name",
