@@ -27,7 +27,7 @@ jobs:
 
   testing:
     runs-on: ubuntu-latest
-    container: golang:1.20-alpine
+    container: golang:1.22-alpine
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,4 +41,4 @@ jobs:
           make test
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v3
