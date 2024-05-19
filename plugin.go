@@ -64,9 +64,9 @@ type (
 	}
 )
 
-func getEnvironment(Environment []string) map[string]string {
+func getEnvironment(envs []string) map[string]string {
 	output := make(map[string]string)
-	for _, e := range Environment {
+	for _, e := range envs {
 		pair := strings.SplitN(e, "=", 2)
 		if len(pair) != 2 {
 			continue
@@ -83,7 +83,7 @@ func (p Plugin) loadEnvironment(envs []string) *lambda.Environment {
 }
 
 // Exec executes the plugin.
-func (p Plugin) Exec() error {
+func (p Plugin) Exec() error { //nolint:gocyclo
 	p.dump(p.Config)
 
 	if p.Config.FunctionName == "" {

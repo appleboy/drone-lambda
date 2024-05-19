@@ -72,8 +72,9 @@ func main() {
 			EnvVars: []string{"PLUGIN_REVERSION_ID", "REVERSION_ID", "INPUT_REVERSION_ID"},
 		},
 		&cli.StringFlag{
-			Name:    "s3-bucket",
-			Usage:   "An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.",
+			Name: "s3-bucket",
+			Usage: "An Amazon S3 bucket in the same AWS Region as your function. " +
+				"The bucket can be in a different AWS account.",
 			EnvVars: []string{"PLUGIN_S3_BUCKET", "S3_BUCKET", "INPUT_S3_BUCKET"},
 		},
 		&cli.StringFlag{
@@ -97,8 +98,9 @@ func main() {
 			EnvVars: []string{"PLUGIN_SOURCE", "SOURCE", "INPUT_SOURCE"},
 		},
 		&cli.BoolFlag{
-			Name:    "dry-run",
-			Usage:   "Set to true to validate the request parameters and access permissions without modifying the function code.",
+			Name: "dry-run",
+			Usage: "Set to true to validate the request parameters and " +
+				"access permissions without modifying the function code.",
 			EnvVars: []string{"PLUGIN_DRY_RUN", "DRY_RUN", "INPUT_DRY_RUN"},
 		},
 		&cli.BoolFlag{
@@ -112,13 +114,16 @@ func main() {
 			EnvVars: []string{"PLUGIN_PUBLISH", "PUBLISH", "INPUT_PUBLISH"},
 		},
 		&cli.Int64Flag{
-			Name:    "memory-size",
-			Usage:   "The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.",
+			Name: "memory-size",
+			Usage: "The amount of memory that your function has access to. " +
+				"Increasing the function's memory also increases its CPU allocation. " +
+				"The default value is 128 MB. The value must be a multiple of 64 MB.",
 			EnvVars: []string{"PLUGIN_MEMORY_SIZE", "MEMORY_SIZE", "INPUT_MEMORY_SIZE"},
 		},
 		&cli.Int64Flag{
-			Name:    "timeout",
-			Usage:   "The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.",
+			Name: "timeout",
+			Usage: "The amount of time that Lambda allows a function to run before stopping it. " +
+				"The default is 3 seconds. The maximum allowed value is 900 seconds.",
 			EnvVars: []string{"PLUGIN_TIMEOUT", "TIMEOUT", "INPUT_TIMEOUT"},
 		},
 		&cli.StringFlag{
