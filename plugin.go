@@ -49,6 +49,7 @@ type (
 		SessionToken    string
 		TracingMode     string
 		MaxAttempts     int
+		Architectures   []string
 	}
 
 	// Commit information.
@@ -142,6 +143,15 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 		if p.Config.S3ObjectVersion != "" {
 			input.SetS3ObjectVersion(p.Config.S3ObjectVersion)
 		}
+	}
+
+	//
+	if len(p.Config.Architectures) != 0 {
+		var v []*string
+		for _, a := range p.Config.Architectures {
+			v = append(v, aws.String(a))
+		}
+		input.SetArchitectures(v)
 	}
 
 	if len(sources) != 0 {

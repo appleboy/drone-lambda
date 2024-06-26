@@ -192,6 +192,11 @@ func main() {
 			EnvVars: []string{"PLUGIN_MAX_ATTEMPTS", "MAX_ATTEMPTS", "INPUT_MAX_ATTEMPTS"},
 			Value:   200,
 		},
+		&cli.StringSliceFlag{
+			Name:    "architectures",
+			Usage:   "determines the type of computer processor that Lambda uses to run the function.",
+			EnvVars: []string{"PLUGIN_ARCHITECTURE", "ARCHITECTURE", "INPUT_ARCHITECTURE"},
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -230,6 +235,7 @@ func run(c *cli.Context) error {
 			SessionToken:    c.String("session-token"),
 			TracingMode:     c.String("tracing-mode"),
 			MaxAttempts:     c.Int("max-attempts"),
+			Architectures:   c.StringSlice("architectures"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),
