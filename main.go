@@ -195,7 +195,7 @@ func main() {
 		&cli.StringSliceFlag{
 			Name:    "architectures",
 			Usage:   "determines the type of computer processor that Lambda uses to run the function.",
-			EnvVars: []string{"PLUGIN_ARCHITECTURE", "ARCHITECTURE", "INPUT_ARCHITECTURE"},
+			EnvVars: []string{"PLUGIN_ARCHITECTURES", "ARCHITECTURES", "INPUT_ARCHITECTURES"},
 		},
 	}
 
