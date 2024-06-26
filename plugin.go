@@ -147,11 +147,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 
 	//
 	if len(p.Config.Architectures) != 0 {
-		var v []*string
-		for _, a := range p.Config.Architectures {
-			v = append(v, aws.String(a))
-		}
-		input.SetArchitectures(v)
+		input.SetArchitectures(aws.StringSlice(p.Config.Architectures))
 	}
 
 	if len(sources) != 0 {
@@ -205,11 +201,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 	}
 	if len(p.Config.Layers) > 0 {
 		isUpdateConfig = true
-		var layers []*string
-		for _, v := range trimValues(p.Config.Layers) {
-			layers = append(layers, aws.String(v))
-		}
-		cfg.SetLayers(layers)
+		cfg.SetLayers(aws.StringSlice(p.Config.Layers))
 	}
 
 	envs := trimValues(p.Config.Environment)
