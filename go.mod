@@ -3,7 +3,6 @@ module github.com/appleboy/drone-lambda
 go 1.19
 
 require (
-	braces.dev/errtrace v0.3.0
 	github.com/aws/aws-sdk-go v1.54.7
 	github.com/gookit/goutil v0.6.15
 	github.com/joho/godotenv v1.5.1

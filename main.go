@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	"braces.dev/errtrace"
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/urfave/cli/v2"
@@ -249,5 +248,5 @@ func run(c *cli.Context) error {
 		},
 	}
 
-	return errtrace.Wrap(plugin.Exec())
+	return plugin.Exec()
 }

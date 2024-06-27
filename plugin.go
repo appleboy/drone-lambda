@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"braces.dev/errtrace"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -89,7 +88,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 	p.dump(p.Config)
 
 	if p.Config.FunctionName == "" {
-		return errtrace.Wrap(errors.New("missing lambda function name"))
+		return errors.New("missing lambda function name")
 	}
 
 	sources := trimValues(p.Config.Source)
@@ -98,7 +97,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 		len(sources) == 0 &&
 		p.Config.ZipFile == "" &&
 		p.Config.ImageURI == "" {
-		return errtrace.Wrap(errors.New("missing zip source or s3 bucket/key or image uri"))
+		return errors.New("missing zip source or s3 bucket/key or image uri")
 	}
 
 	// Create Lambda service client
@@ -157,7 +156,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 		zip := archiver.NewZip()
 		if len(files) != 0 {
 			if err := zip.Archive(files, path); err != nil {
-				return errtrace.Wrap(err)
+				return err
 			}
 
 			p.Config.ZipFile = path
@@ -167,7 +166,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 	if p.Config.ZipFile != "" {
 		contents, err := os.ReadFile(p.Config.ZipFile)
 		if err != nil {
-			return errtrace.Wrap(err)
+			return err
 		}
 
 		input.SetZipFile(contents)
@@ -235,7 +234,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 		// UpdateFunctionConfiguration API operation for AWS Lambda.
 		log.Println("Update function configuration ...")
 		if err := p.checkStatus(svc); err != nil {
-			return errtrace.Wrap(err)
+			return err
 		}
 		lambdaConfig, err := svc.UpdateFunctionConfiguration(cfg)
 		if err != nil {
@@ -261,7 +260,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 				// Message from an error.
 				log.Println(err.Error())
 			}
-			return errtrace.Wrap(err)
+			return err
 		}
 
 		p.dump(lambdaConfig)
@@ -269,7 +268,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 
 	log.Println("Update function code ...")
 	if err := p.checkStatus(svc); err != nil {
-		return errtrace.Wrap(err)
+		return err
 	}
 	lambdaConfig, err := svc.UpdateFunctionCode(input)
 	if err != nil {
@@ -297,7 +296,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 			// Message from an error.
 			log.Println(err.Error())
 		}
-		return errtrace.Wrap(err)
+		return err
 	}
 
 	p.dump(lambdaConfig)
@@ -312,7 +311,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 		FunctionName: aws.String(p.Config.FunctionName),
 	})
 	if err != nil {
-		return errtrace.Wrap(err)
+		return err
 	}
 	log.Println("Current State:", aws.StringValue(lambdaConfig.State))
 	if aws.StringValue(lambdaConfig.State) != lambda.StateActive {
@@ -327,7 +326,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 			request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
 		); err != nil {
 			log.Println(err.Error())
-			return errtrace.Wrap(err)
+			return err
 		}
 	}
 
@@ -344,7 +343,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 			request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
 		); err != nil {
 			log.Println(err.Error())
-			return errtrace.Wrap(err)
+			return err
 		}
 	}
 
