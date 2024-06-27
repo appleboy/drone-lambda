@@ -50,6 +50,7 @@ type (
 		TracingMode     string
 		MaxAttempts     int
 		Architectures   []string
+		IP6DualStack    bool
 	}
 
 	// Commit information.
@@ -215,8 +216,9 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 	if len(subnets) > 0 || len(securityGroups) > 0 {
 		isUpdateConfig = true
 		cfg.SetVpcConfig(&lambda.VpcConfig{
-			SubnetIds:        aws.StringSlice(subnets),
-			SecurityGroupIds: aws.StringSlice(securityGroups),
+			Ipv6AllowedForDualStack: aws.Bool(p.Config.IP6DualStack),
+			SubnetIds:               aws.StringSlice(subnets),
+			SecurityGroupIds:        aws.StringSlice(securityGroups),
 		})
 	}
 
