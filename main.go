@@ -197,6 +197,11 @@ func main() {
 			Usage:   "determines the type of computer processor that Lambda uses to run the function.",
 			EnvVars: []string{"PLUGIN_ARCHITECTURES", "ARCHITECTURES", "INPUT_ARCHITECTURES"},
 		},
+		&cli.BoolFlag{
+			Name:    "ipv6-dual-stack",
+			Usage:   "Enables or disables dual-stack IPv6 support in the VPC configuration for the Lambda function.",
+			EnvVars: []string{"PLUGIN_IPV6_DUAL_STACK", "IPV6_DUAL_STACK", "INPUT_IPV6_DUAL_STACK"},
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -236,6 +241,7 @@ func run(c *cli.Context) error {
 			TracingMode:     c.String("tracing-mode"),
 			MaxAttempts:     c.Int("max-attempts"),
 			Architectures:   c.StringSlice("architectures"),
+			IP6DualStack:    c.Bool("ipv6-dual-stack"),
 		},
 		Commit: Commit{
 			Sha:    c.String("commit.sha"),
