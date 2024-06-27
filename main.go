@@ -248,5 +248,5 @@ func run(c *cli.Context) error {
 		},
 	}
 
-	return plugin.Exec()
+	return plugin.Exec(c.Context)
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"log"
 	"os"
@@ -84,7 +85,7 @@ func (p Plugin) loadEnvironment(envs []string) *lambda.Environment {
 }
 
 // Exec executes the plugin.
-func (p Plugin) Exec() error { //nolint:gocyclo
+func (p Plugin) Exec(ctx context.Context) error { //nolint:gocyclo
 	p.dump(p.Config)
 
 	if p.Config.FunctionName == "" {
@@ -236,7 +237,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 		if err := p.checkStatus(svc); err != nil {
 			return err
 		}
-		lambdaConfig, err := svc.UpdateFunctionConfiguration(cfg)
+		lambdaConfig, err := svc.UpdateFunctionConfigurationWithContext(ctx, cfg)
 		if err != nil {
 			if aerr, ok := err.(awserr.Error); ok {
 				switch aerr.Code() {
@@ -270,7 +271,7 @@ func (p Plugin) Exec() error { //nolint:gocyclo
 	if err := p.checkStatus(svc); err != nil {
 		return err
 	}
-	lambdaConfig, err := svc.UpdateFunctionCode(input)
+	lambdaConfig, err := svc.UpdateFunctionCodeWithContext(ctx, input)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
