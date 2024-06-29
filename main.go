@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	_ "github.com/joho/godotenv/autoload"
 	"github.com/urfave/cli/v2"
 )
 
@@ -20,6 +19,10 @@ func main() {
 	// Load env-file if it exists first
 	if filename, found := os.LookupEnv("PLUGIN_ENV_FILE"); found {
 		_ = godotenv.Load(filename)
+	}
+
+	if _, err := os.Stat("/run/drone/env"); err == nil {
+		_ = godotenv.Overload("/run/drone/env")
 	}
 
 	app := cli.NewApp()
