@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/aws/aws-sdk-go v1.54.7
-	github.com/gookit/goutil v0.6.15
+	github.com/gookit/goutil v0.6.16
 	github.com/joho/godotenv v1.5.1
 	github.com/mholt/archiver/v3 v3.5.1
 	github.com/urfave/cli/v2 v2.27.2
@@ -26,7 +26,7 @@ require (
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
-	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
