@@ -1,8 +1,10 @@
 package main
 
 import (
+	"archive/zip"
 	"context"
 	"errors"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -15,7 +17,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/gookit/goutil/dump"
-	"github.com/mholt/archiver/v3"
 )
 
 type (
@@ -154,9 +155,8 @@ func (p Plugin) Exec(ctx context.Context) error { //nolint:gocyclo
 	if len(sources) != 0 {
 		files := globList(sources)
 		path := os.TempDir() + "/output.zip"
-		zip := archiver.NewZip()
 		if len(files) != 0 {
-			if err := zip.Archive(files, path); err != nil {
+			if err := createZip(files, path); err != nil {
 				return err
 			}
 
@@ -389,4 +389,60 @@ func globList(paths []string) []string {
 	}
 
 	return newPaths
+}
+
+func createZip(files []string, dest string) error {
+	out, err := os.Create(dest)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	w := zip.NewWriter(out)
+	defer w.Close()
+
+	for _, src := range files {
+		if err := addToZip(w, src); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func addToZip(w *zip.Writer, src string) error {
+	base := filepath.Dir(src)
+	return filepath.Walk(src, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+
+		rel, err := filepath.Rel(base, path)
+		if err != nil {
+			return err
+		}
+
+		header, err := zip.FileInfoHeader(info)
+		if err != nil {
+			return err
+		}
+		header.Name = rel
+		header.Method = zip.Deflate
+
+		writer, err := w.CreateHeader(header)
+		if err != nil {
+			return err
+		}
+
+		f, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+
+		_, err = io.Copy(writer, f)
+		return err
+	})
 }
