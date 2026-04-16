@@ -39,7 +39,7 @@ jobs:
 
       - name: install packages
         run: |
-          apk add make
+          apk add make bash git curl gpg
 
       - name: testing
         run: |

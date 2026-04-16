@@ -44,19 +44,31 @@ func main() {
 			EnvVars: []string{"PLUGIN_REGION", "PLUGIN_AWS_REGION", "INPUT_AWS_REGION"},
 		},
 		&cli.StringFlag{
-			Name:    "access-key",
-			Usage:   "AWS ACCESS KEY",
-			EnvVars: []string{"PLUGIN_ACCESS_KEY", "PLUGIN_AWS_ACCESS_KEY_ID", "INPUT_AWS_ACCESS_KEY_ID"},
+			Name:  "access-key",
+			Usage: "AWS ACCESS KEY",
+			EnvVars: []string{
+				"PLUGIN_ACCESS_KEY",
+				"PLUGIN_AWS_ACCESS_KEY_ID",
+				"INPUT_AWS_ACCESS_KEY_ID",
+			},
 		},
 		&cli.StringFlag{
-			Name:    "secret-key",
-			Usage:   "AWS SECRET KEY",
-			EnvVars: []string{"PLUGIN_SECRET_KEY", "PLUGIN_AWS_SECRET_ACCESS_KEY", "INPUT_AWS_SECRET_ACCESS_KEY"},
+			Name:  "secret-key",
+			Usage: "AWS SECRET KEY",
+			EnvVars: []string{
+				"PLUGIN_SECRET_KEY",
+				"PLUGIN_AWS_SECRET_ACCESS_KEY",
+				"INPUT_AWS_SECRET_ACCESS_KEY",
+			},
 		},
 		&cli.StringFlag{
-			Name:    "session-token",
-			Usage:   "AWS Session token",
-			EnvVars: []string{"PLUGIN_SESSION_TOKEN", "PLUGIN_AWS_SESSION_TOKEN", "INPUT_AWS_SESSION_TOKEN"},
+			Name:  "session-token",
+			Usage: "AWS Session token",
+			EnvVars: []string{
+				"PLUGIN_SESSION_TOKEN",
+				"PLUGIN_AWS_SESSION_TOKEN",
+				"INPUT_AWS_SESSION_TOKEN",
+			},
 		},
 		&cli.StringFlag{
 			Name:    "aws-profile",
@@ -85,9 +97,13 @@ func main() {
 			EnvVars: []string{"PLUGIN_S3_KEY", "S3_KEY", "INPUT_S3_KEY"},
 		},
 		&cli.StringFlag{
-			Name:    "s3-object-version",
-			Usage:   "AWS lambda s3 object version",
-			EnvVars: []string{"PLUGIN_S3_OBJECT_VERSION", "S3_OBJECT_VERSION", "INPUT_S3_OBJECT_VERSION"},
+			Name:  "s3-object-version",
+			Usage: "AWS lambda s3 object version",
+			EnvVars: []string{
+				"PLUGIN_S3_OBJECT_VERSION",
+				"S3_OBJECT_VERSION",
+				"INPUT_S3_OBJECT_VERSION",
+			},
 		},
 		&cli.StringFlag{
 			Name:    "zip-file",

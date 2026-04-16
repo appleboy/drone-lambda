@@ -116,7 +116,11 @@ func (p Plugin) Exec(ctx context.Context) error { //nolint:gocyclo
 	}
 
 	if p.Config.AccessKey != "" && p.Config.SecretKey != "" {
-		config.Credentials = credentials.NewStaticCredentials(p.Config.AccessKey, p.Config.SecretKey, p.Config.SessionToken)
+		config.Credentials = credentials.NewStaticCredentials(
+			p.Config.AccessKey,
+			p.Config.SecretKey,
+			p.Config.SessionToken,
+		)
 	}
 
 	if p.Config.DryRun {
@@ -333,8 +337,14 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 
 	log.Println("Last Update Status:", aws.StringValue(lambdaConfig.LastUpdateStatus))
 	if aws.StringValue(lambdaConfig.LastUpdateStatus) != lambda.LastUpdateStatusSuccessful {
-		log.Println("Last Update Status Reason:", aws.StringValue(lambdaConfig.LastUpdateStatusReason))
-		log.Println("Last Update Status ReasonCode:", aws.StringValue(lambdaConfig.LastUpdateStatusReasonCode))
+		log.Println(
+			"Last Update Status Reason:",
+			aws.StringValue(lambdaConfig.LastUpdateStatusReason),
+		)
+		log.Println(
+			"Last Update Status ReasonCode:",
+			aws.StringValue(lambdaConfig.LastUpdateStatusReasonCode),
+		)
 		log.Println("Waiting for Last Update Status to be successful ...")
 		if err := svc.WaitUntilFunctionUpdatedV2WithContext(
 			aws.BackgroundContext(),
@@ -436,7 +446,7 @@ func addToZip(w *zip.Writer, src string) error {
 			return err
 		}
 
-		f, err := os.Open(path)
+		f, err := os.Open(path) //nolint:gosec // walk over user dir
 		if err != nil {
 			return err
 		}
