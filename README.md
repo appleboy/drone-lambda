@@ -3,7 +3,6 @@
 [![GoDoc](https://godoc.org/github.com/appleboy/drone-lambda?status.svg)](https://godoc.org/github.com/appleboy/drone-lambda)
 [![Trivy Security Scan](https://github.com/appleboy/drone-lambda/actions/workflows/trivy.yml/badge.svg?branch=master)](https://github.com/appleboy/drone-lambda/actions/workflows/trivy.yml)
 [![codecov](https://codecov.io/gh/appleboy/drone-lambda/branch/master/graph/badge.svg)](https://codecov.io/gh/appleboy/drone-lambda)
-[![Go Report Card](https://goreportcard.com/badge/github.com/appleboy/drone-lambda)](https://goreportcard.com/report/github.com/appleboy/drone-lambda)
 [![Docker Pulls](https://img.shields.io/docker/pulls/appleboy/drone-lambda.svg)](https://hub.docker.com/r/appleboy/drone-lambda/)
 
 Deploying Lambda code with drone CI to an existing function. The plugin automatically deployes a serverless function to AWS Lambda from a zip file located in an S3 bucket. This plugin does not handle creating or uploading the zip file.
