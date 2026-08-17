@@ -3,7 +3,7 @@ module github.com/appleboy/drone-lambda
 go 1.25.10
 
 require (
-	github.com/aws/aws-sdk-go v1.55.5
+	github.com/aws/aws-sdk-go v1.55.8
 	github.com/gookit/goutil v0.6.16
 	github.com/joho/godotenv v1.5.1
 	github.com/urfave/cli/v2 v2.27.7
