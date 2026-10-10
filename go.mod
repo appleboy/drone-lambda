@@ -1,6 +1,6 @@
 module github.com/appleboy/drone-lambda
 
-go 1.25.13
+go 1.26.9
 
 require (
 	github.com/aws/aws-sdk-go v1.55.5
