@@ -86,7 +86,7 @@ func (p Plugin) loadEnvironment(envs []string) *lambda.Environment {
 }
 
 // Exec executes the plugin.
-func (p Plugin) Exec(ctx context.Context) error { //nolint:gocyclo
+func (p Plugin) Exec(ctx context.Context) error {
 	p.dump(p.Config)
 
 	if p.Config.FunctionName == "" {
@@ -108,7 +108,7 @@ func (p Plugin) Exec(ctx context.Context) error { //nolint:gocyclo
 	}))
 
 	config := &aws.Config{
-		Region: aws.String(p.Config.Region),
+		Region: new(p.Config.Region),
 	}
 
 	if p.Config.Profile != "" {
@@ -220,7 +220,7 @@ func (p Plugin) Exec(ctx context.Context) error { //nolint:gocyclo
 	if len(subnets) > 0 || len(securityGroups) > 0 {
 		isUpdateConfig = true
 		cfg.SetVpcConfig(&lambda.VpcConfig{
-			Ipv6AllowedForDualStack: aws.Bool(p.Config.IP6DualStack),
+			Ipv6AllowedForDualStack: new(p.Config.IP6DualStack),
 			SubnetIds:               aws.StringSlice(subnets),
 			SecurityGroupIds:        aws.StringSlice(securityGroups),
 		})
@@ -229,7 +229,7 @@ func (p Plugin) Exec(ctx context.Context) error { //nolint:gocyclo
 	if p.Config.TracingMode != "" {
 		isUpdateConfig = true
 		cfg.SetTracingConfig(&lambda.TracingConfig{
-			Mode: aws.String(p.Config.TracingMode),
+			Mode: new(p.Config.TracingMode),
 		})
 	}
 
@@ -313,7 +313,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 	// Check Lambda function states
 	// see https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html
 	lambdaConfig, err := svc.GetFunctionConfiguration(&lambda.GetFunctionConfigurationInput{
-		FunctionName: aws.String(p.Config.FunctionName),
+		FunctionName: new(p.Config.FunctionName),
 	})
 	if err != nil {
 		return err
@@ -326,7 +326,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 		if err := svc.WaitUntilFunctionActiveV2WithContext(
 			aws.BackgroundContext(),
 			&lambda.GetFunctionInput{
-				FunctionName: aws.String(p.Config.FunctionName),
+				FunctionName: new(p.Config.FunctionName),
 			},
 			request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
 		); err != nil {
@@ -349,7 +349,7 @@ func (p *Plugin) checkStatus(svc *lambda.Lambda) error {
 		if err := svc.WaitUntilFunctionUpdatedV2WithContext(
 			aws.BackgroundContext(),
 			&lambda.GetFunctionInput{
-				FunctionName: aws.String(p.Config.FunctionName),
+				FunctionName: new(p.Config.FunctionName),
 			},
 			request.WithWaiterMaxAttempts(p.Config.MaxAttempts),
 		); err != nil {
