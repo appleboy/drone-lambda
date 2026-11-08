@@ -1,3 +1,5 @@
+version: 2
+
 before:
   hooks:
     - go mod tidy
@@ -77,7 +79,7 @@ builds:
           dir: ./dist/
 
 archives:
-  - format: binary
+  - formats: [binary]
     name_template: "{{ .Binary }}"
     allow_different_binary_count: true
 
@@ -87,7 +89,7 @@ checksum:
     - glob: ./**.xz
 
 snapshot:
-  name_template: "{{ incpatch .Version }}"
+  version_template: "{{ incpatch .Version }}"
 
 release:
   # You can add extra pre-existing files to the release.
