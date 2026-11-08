@@ -92,6 +92,11 @@ linters:
       - legacy
       - std-error-handling
     rules:
+      # Keep the latest SDK v1 patch until the separate SDK v2 API migration.
+      - linters:
+          - staticcheck
+        path: ^plugin\.go$
+        text: 'SA1019: github\.com/aws/aws-sdk-go/(aws|aws/awserr|aws/credentials|aws/request|aws/session|service/lambda) is deprecated:'
       - linters:
           - errcheck
           - staticcheck
